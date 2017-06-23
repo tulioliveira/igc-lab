@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/student', 'StudentsController@index');
+
+Route::resource('student', 'StudentsController');
+
+// Route::get('student/teste/{id}/{name}/{password}', 'StudentsController@teste');
