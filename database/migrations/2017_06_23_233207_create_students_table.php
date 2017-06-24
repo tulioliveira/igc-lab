@@ -24,7 +24,7 @@ class CreateStudentsTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->integer('number');
-            $table->string('complement');
+            $table->string('complement')->nullable();
             $table->string('phone');
             $table->timestamps();
         });
