@@ -21,6 +21,9 @@ class CreateLoansTable extends Migration
             $table->datetime('loaned_on');
             $table->datetime('returned_on')->nullable();
             $table->timestamps();
+
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('equipment_id')->references('id')->on('equipment')->onDelete('cascade');
         });
     }
 
