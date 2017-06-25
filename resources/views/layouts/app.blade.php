@@ -16,7 +16,7 @@
 </head>
 <body>
 
-	<div class="ui main attached menu inverted">
+	<div class="ui attached menu inverted margin bottom small">
 		<div class="ui container">
 			<a class="header item" href="/">
 			   Laboratório IGC
@@ -38,5 +38,7 @@
 	<!-- Scripts -->
 	<script type="text/javascript" src="{{URL::asset('js/jquery-3.2.1.min.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('semantic-ui/semantic.min.js')}}"></script>
+
+	@yield('scripts')
 </body>
 </html>
