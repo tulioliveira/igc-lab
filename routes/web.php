@@ -1,6 +1,7 @@
 <?php
 
 use App\Student;
+use App\Equipment;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,9 @@ use App\Student;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::resource('student', 'StudentsController');
+Route::resource('students', 'StudentsController');
+
+Route::resource('equipment', 'EquipmentController');
