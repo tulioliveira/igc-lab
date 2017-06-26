@@ -49,7 +49,9 @@ class EquipmentController extends Controller
 	 */
 	public function show($id)
 	{
-		//
+		$equipment = Equipment::findOrFail($id);
+
+		return view('equipment.show', compact('equipment'));
 	}
 
 	/**

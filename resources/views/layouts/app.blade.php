@@ -16,19 +16,18 @@
 </head>
 <body>
 
-	<div class="ui attached menu inverted margin bottom small">
+	<div class="ui attached menu inverted margin bottom small main">
 		<div class="ui container">
 			<a class="header item" href="/">
-			   Laboratório IGC
+			   <h3 class="ui header inverted"><i class="world icon"></i>Laboratório IGC</h3>
 			</a>
 			<a class="item" href="/students"> 
-				Alunos 
+				<i class="student icon"></i> Alunos 
 			</a>
 			<a class="item" href="/equipment">
-				Equipamentos
+				<i class="settings icon"></i>Equipamentos
 			</a>    
 		</div>
-		
 	</div>
 
 	<div class="ui container">

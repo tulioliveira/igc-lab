@@ -1,30 +1,110 @@
 @extends('layouts.app')
 
 @section('content')
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
+	<h1 class="ui center aligned icon header">
+		<i class="student icon"></i>
+		Alunos
+	</h1>
+	<div class="ui form margin bottom small">
+		<div class="fields">
+			<div class="three wide field">
+				<a class="ui animated fade button green fluid" tabindex="0" href="/students/create" data-content="Adicionar um novo aluno ao sistema" data-variation="wide">
+					<div class="visible content">Novo Aluno</div>
+					<div class="hidden content">
+						<i class="icon add"></i>
+					</div>
+				</a>
+			</div>
+			<div class="thirteen wide field">
+				<div class="ui fluid icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide">
+					<input type="text" placeholder="Buscar alunos" name="query" id="queryInput">
+					<i class="search icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	@if (empty($students))
+		<div class="ui icon warning message">
+			<i class="huge comments outline icon"></i>
+			<div class="content">
+				<div class="header">
+					Nenhum aluno encontrado
+				</div>
+			</div>
+		</div>
+	@else
+		<table class="ui teal fixed celled table" id="studentsTable">
+			<thead>
+				<tr>
+					<th class="center aligned two wide">Matrícula</th>
+					<th class="center aligned two wide">CPF</th>
+					<th class="center aligned two wide">Nome</th>
+					<th class="center aligned two wide">Email</th>
+					<th class="center aligned two wide">Curso</th>
+					<th class="center aligned two wide">Telefone</th>
+					<th class="center aligned four wide">Opções</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($students as $student)
+					<tr>
+						<td class="center aligned">{{$student->id}}</td>
+						<td class="center aligned">{{$student->cpf}}</td>
+						<td class="center aligned">{{$student->name}}</td>
+						<td class="center aligned">{{$student->email}}</td>
+						<td class="center aligned">{{$student->course}}</td>
+						<td class="center aligned">{{$student->phone}}</td>
+						<td>
+							<div class="ui buttons small fluid">
+								<a class="ui animated fade button " tabindex="0" href="/students/{{$student->id}}" data-content="Visualizar mais detalhes">
+									<div class="visible content">Ver</div>
+									<div class="hidden content">
+										<i class="icon search"></i>
+									</div>
+								</a>
+								<a class="ui animated fade button primary" tabindex="0" href="/students" data-content="Editar as informações do aluno" data-variation="wide">
+									<div class="visible content">Editar</div>
+									<div class="hidden content">
+										<i class="icon edit"></i>
+									</div>
+								</a>
+								<a class="ui animated fade button negative" tabindex="0" href="/students" data-content="Remover o aluno do sistema">
+									<div class="visible content">Deletar</div>
+									<div class="hidden content">
+										<i class="icon remove"></i>
+									</div>
+								</a>
+							</div>
+						</td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+	@endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+	
+@stop
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
+@section('scripts')
+	<script type="text/javascript">
+
+		$('.ui[data-content]').popup({
+			on: 'hover'
+		});
+		$(document).ready(function() {
+			$('#queryInput').on('keyup', function() {
+				var value = $(this).val();
+				var patt = new RegExp(value, "i");
+
+				$('table#studentsTable tbody').find('tr').each(function() {
+					if (!($(this).find('td').text().search(patt) >= 0)) {
+						$(this).hide();
+					}
+					if (($(this).find('td').text().search(patt) >= 0)) {
+						$(this).show();
+					}
+				});
+			});
+		});
+	</script>
 @stop

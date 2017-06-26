@@ -8,7 +8,7 @@
 	<div class="ui form margin bottom small">
 		<div class="fields">
 			<div class="three wide field">
-				<a class="ui animated fade button green fluid" tabindex="0" href="/equipment/create">
+				<a class="ui animated fade button green fluid" tabindex="0" href="/equipment/create" data-content="Adicionar um novo equipamento ao sistema" data-variation="wide">
 					<div class="visible content">Novo Equipamento</div>
 					<div class="hidden content">
 						<i class="icon add"></i>
@@ -16,7 +16,7 @@
 				</a>
 			</div>
 			<div class="thirteen wide field">
-				<div class="ui fluid icon input">
+				<div class="ui fluid icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide">
 					<input type="text" placeholder="Buscar equipamentos" name="query" id="queryInput">
 					<i class="search icon"></i>
 				</div>
@@ -38,8 +38,8 @@
 				<tr>
 					<th class="two wide center aligned">Código</th>
 					<th class="two wide center aligned">Nome</th>
-					<th class="eight wide">Descrição</th>
-					<th class="four wide">Opções</th>
+					<th class="center aligned eight wide">Descrição</th>
+					<th class="center aligned four wide">Opções</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,19 +50,19 @@
 						<td>{{$equip->description}}</td>
 						<td>
 							<div class="ui buttons small fluid">
-								<a class="ui animated fade button " tabindex="0" href="/equipment">
+								<a class="ui animated fade button " tabindex="0" href="/equipment/{{$equip->id}}" data-content="Visualizar mais detalhes">
 									<div class="visible content">Ver</div>
 									<div class="hidden content">
 										<i class="icon search"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button primary" tabindex="0" href="/equipment">
+								<a class="ui animated fade button primary" tabindex="0" href="/equipment" data-content="Editar as informações do equipamento" data-variation="wide">
 									<div class="visible content">Editar</div>
 									<div class="hidden content">
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button negative" tabindex="0" href="/equipment">
+								<a class="ui animated fade button negative" tabindex="0" href="/equipment" data-content="Remover o equipamento do sistema">
 									<div class="visible content">Deletar</div>
 									<div class="hidden content">
 										<i class="icon remove"></i>
@@ -81,6 +81,9 @@
 
 @section('scripts')
 	<script type="text/javascript">
+		$('.ui[data-content]').popup({
+			on: 'hover'
+		});
 		$(document).ready(function() {
 			$('#queryInput').on('keyup', function() {
 				var value = $(this).val();
