@@ -3,8 +3,13 @@
 @section('content')
 	@if (isset($equipment))
 		<div class="ui segment raised">
-			<h1 class="ui header">{{$equipment->name}}</h1>
-			aaa
+			<h1 class="ui header">
+				{{$equipment->name}} 
+				<div class="ui label">
+					<i class="settings icon"></i> Id:{{$equipment->id}}
+				</div>
+			</h1>
+			{{$equipment->description}}
 			
 		</div>
 	@else

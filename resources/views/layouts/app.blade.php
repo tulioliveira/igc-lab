@@ -19,25 +19,31 @@
 	<div class="ui attached menu inverted margin bottom small main">
 		<div class="ui container">
 			<a class="header item" href="/">
-			   <h3 class="ui header inverted"><i class="world icon"></i>Laboratório IGC</h3>
+				<h3 class="ui header inverted"><i class="world icon"></i>Laboratório IGC</h3>
 			</a>
 			<a class="item" href="/students"> 
 				<i class="student icon"></i> Alunos 
 			</a>
 			<a class="item" href="/equipment">
 				<i class="settings icon"></i>Equipamentos
-			</a>    
+			</a>
+			<div class="right menu">
+				<button class="item circular ui icon button" id="help-button" data-content="Coloque o cursor sobre esse botão para exibir balões de ajuda na página!">
+					<i class="icon help circle large"></i>
+				</button>
+			</div>
 		</div>
 	</div>
-
 	<div class="ui container">
 		@yield('content')
 	</div>
 	
 	<!-- Scripts -->
+
 	<script type="text/javascript" src="{{URL::asset('js/jquery-3.2.1.min.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('semantic-ui/semantic.min.js')}}"></script>
 
 	@yield('scripts')
+	<script type="text/javascript" src="{{URL::asset('js/help.js')}}"></script>
 </body>
 </html>
