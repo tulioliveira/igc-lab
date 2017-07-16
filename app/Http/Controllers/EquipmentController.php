@@ -49,7 +49,7 @@ class EquipmentController extends Controller
 	 */
 	public function show($id)
 	{
-		$equipment = Equipment::findOrFail($id);
+		$equipment = Equipment::find($id);
 
 		return view('equipment.show', compact('equipment'));
 	}
@@ -62,7 +62,9 @@ class EquipmentController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$equipment = Equipment::find($id);
+
+		return view('equipment.edit', compact('equipment'));
 	}
 
 	/**
@@ -74,7 +76,11 @@ class EquipmentController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$equipment = Equipment::find($id);
+
+		$equipment->update($request->all());
+
+		return redirect('/equipment');
 	}
 
 	/**
@@ -85,6 +91,8 @@ class EquipmentController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		$equipment = Equipment::whereId($id)->delete();
+
+		return redirect('/equipment');
 	}
 }

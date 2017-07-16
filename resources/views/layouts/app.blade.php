@@ -28,7 +28,7 @@
 				<i class="settings icon"></i>Equipamentos
 			</a>
 			<div class="right menu">
-				<button class="item circular ui icon button" id="help-button" data-content="Coloque o cursor sobre esse botão para exibir balões de ajuda na página!">
+				<button class="item circular ui icon button" id="help-button" data-content="Coloque o cursor sobre esse botão para exibir balões de ajuda na página!" data-variation="flowing" data-position="bottom center">
 					<i class="icon help circle large"></i>
 				</button>
 			</div>

@@ -17,7 +17,11 @@
 			<label>Descrição</label>
 			<textarea name="description" rows="3"></textarea>
 		</div>
-		<button class="ui button fluid primary" type="submit">Cadastrar</button>
+		<div class="ui buttons fluid">
+			<a class="ui button" href="/equipment">Cancelar</a>
+			<div class="or" data-text="ou"></div>
+			<button class="ui positive button" type="submit">Cadastrar</button>
+		</div>
 	</form>
 </div>
 @stop

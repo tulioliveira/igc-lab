@@ -56,7 +56,7 @@
 										<i class="icon search"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button primary" tabindex="0" href="/equipment" @if($loop->first) data-content="Editar as informações do equipamento" data-variation="wide" data-position="top center" @endif>
+								<a class="ui animated fade button primary" tabindex="0" href="/equipment/{{$equip->id}}/edit" @if($loop->first) data-content="Editar as informações do equipamento" data-variation="wide" data-position="top center" @endif>
 									<div class="visible content">Editar</div>
 									<div class="hidden content">
 										<i class="icon edit"></i>
