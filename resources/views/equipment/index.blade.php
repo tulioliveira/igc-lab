@@ -62,12 +62,16 @@
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button negative" tabindex="0" href="/equipment" @if($loop->first) data-content="Remover o equipamento do sistema" data-position="right center" @endif>
-									<div class="visible content">Deletar</div>
-									<div class="hidden content">
-										<i class="icon remove"></i>
-									</div>
-								</a>
+								<form method="POST" action="/equipment/{{$equip->id}}">
+									{{csrf_field()}}
+									<input type="hidden" name="_method" value="DELETE">
+									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o equipamento do sistema" data-position="bottom right" @endif>
+										<div class="visible content">Deletar</div>
+										<div class="hidden content">
+											<i class="icon remove"></i>
+										</div>
+									</button>
+								</form>
 							</div>
 						</td>
 					</tr>

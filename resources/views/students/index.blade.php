@@ -62,13 +62,13 @@
 										<i class="icon search"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button primary" tabindex="0" href="/students" @if($loop->first) data-content="Editar as informações do aluno" data-variation="wide" data-position="left center" @endif>
+								<a class="ui animated fade button primary" tabindex="0" href="/students" @if($loop->first) data-content="Editar as informações do aluno" data-variation="wide" data-position="top center" @endif>
 									<div class="visible content">Editar</div>
 									<div class="hidden content">
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button negative" tabindex="0" href="/students" @if($loop->first) data-content="Remover o aluno do sistema" data-position="left center" @endif>
+								<a class="ui animated fade button negative" tabindex="0" href="/students" @if($loop->first) data-content="Remover o aluno do sistema" data-position="bottom right" @endif>
 									<div class="visible content">Deletar</div>
 									<div class="hidden content">
 										<i class="icon remove"></i>

@@ -3,14 +3,38 @@
 @section('content')
 	@if (isset($equipment))
 		<div class="ui segment raised" >
-			<h1 class="ui header" data-content="Nome do equipamento" data-position="center left">
-				{{$equipment->name}} 
-				<div class="ui label" data-content="Código do equipamento" data-position="center right">
-					<i class="settings icon"></i> Id:{{$equipment->id}}
+			<div class="ui grid">
+				<div class="twelve wide column">
+					<h1 class="ui header" data-content="Nome do equipamento" data-position="top left">
+						{{$equipment->name}} 
+						<div class="ui label" data-content="Código do equipamento" data-position="right center">
+							<i class="settings icon"></i> Id:{{$equipment->id}}
+						</div>
+					</h1>
 				</div>
-				<a class="ui button primary right floated" href="/equipment/{{$equipment->id}}/edit" data-content="Editar as informações do equipamento">Editar</a>
-			</h1>
-			{{$equipment->description}}
+				<div class="four wide column">
+					<form class="ui form" method="POST" action="/equipment/{{$equipment->id}}">
+						{{csrf_field()}}
+						<input type="hidden" name="_method" value="DELETE">
+						<div class="ui buttons right floated">
+							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o equipamento do sistema" data-position="left center">
+								<div class="visible content">Deletar</div>
+								<div class="hidden content">
+									<i class="icon remove"></i>
+								</div>
+							</button>
+							<a class="ui animated fade button primary" tabindex="0" href="/equipment/{{$equipment->id}}/edit" data-content="Editar as informações do equipamento" data-variation="flowing" data-position="bottom center">
+								<div class="visible content">Editar</div>
+								<div class="hidden content">
+									<i class="icon edit"></i>
+								</div>
+							</a>
+						</div>
+					</form>	
+				</div>
+			</div>
+			<div class="ui divider"></div>
+			<span class="ui" data-content="Descrição do equipamento" data-position="bottom left">{{$equipment->description}}</span>
 			
 		</div>
 	@else
