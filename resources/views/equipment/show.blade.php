@@ -8,7 +8,7 @@
 					<h1 class="ui header" data-content="Nome do equipamento" data-position="top left">
 						{{$equipment->name}} 
 						<div class="ui label" data-content="Código do equipamento" data-position="right center">
-							<i class="settings icon"></i> Código:{{$equipment->code}}
+							<i class="settings icon"></i>Código: {{$equipment->code}}
 						</div>
 					</h1>
 				</div>
@@ -45,7 +45,7 @@
 			Esse equipamento não existe!
 		</h2>
 		<div class="ui container center aligned">
-			<a class="ui primary button" href="/equipment">Voltar</a>
+			<a class="ui primary button" href="/equipment"><i class="icon left arrow"></i>Voltar</a>
 		</div>
 	@endif
 @stop

@@ -81,7 +81,7 @@ class EquipmentController extends Controller
 
 		$equipment->update($request->all());
 
-		return redirect('/equipment');
+		return redirect('/equipment/'. $id);
 	}
 
 	/**
@@ -92,7 +92,7 @@ class EquipmentController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$equipment = Equipment::whereId($id)->delete();
+		Equipment::whereId($id)->delete();
 
 		return redirect('/equipment');
 	}

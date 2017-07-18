@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentRequest;
 use App\Student;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class StudentsController extends Controller
     public function index()
     {
         $students = Student::all();
-        return view('students/index', compact('students'));
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -25,7 +26,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -34,9 +35,11 @@ class StudentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-        //
+        Student::create($request->all());
+    
+        return redirect('/students');
     }
 
     /**
@@ -47,7 +50,9 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = Student::find($id);
+
+        return view('students.show', compact('student'));
     }
 
     /**
@@ -58,7 +63,9 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::find($id);
+
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -68,9 +75,13 @@ class StudentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudentRequest $request, $id)
     {
-        //
+        $student = Student::find($id);
+
+        $student->update($request->all());
+
+        return redirect('/students/' . $id);
     }
 
     /**
@@ -81,11 +92,8 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        Student::whereId($id)->delete();
 
-    public function teste($id, $name, $password) 
-    {
-        return view("students/index", compact('id', 'name', 'password'));
+        return redirect('/students');
     }
 }

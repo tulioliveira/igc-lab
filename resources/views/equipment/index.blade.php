@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-	@if (empty($equipment))
+	@if (count($equipment) == 0)
 		<div class="ui icon warning message">
 			<i class="huge comments outline icon"></i>
 			<div class="content">

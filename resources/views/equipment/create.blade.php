@@ -5,7 +5,7 @@
 		<div class="ui error message">
 			<i class="close icon"></i>
 			<div class="header">
-				O formulário de criação apresentou alguns erros:
+				O formulário de criação apresentou os seguintes erros:
 			</div>
 			<ul class="list">
 				@foreach($errors->all() as $message)
@@ -17,7 +17,7 @@
 	<div class="ui segment raised">
 		{!! Form::open(['method'=>'POST', 'action'=>'EquipmentController@store', 'class'=>'ui form']) !!}
 			{{csrf_field()}}
-			<h4 class="ui dividing header">Cadastrar Equipamento</h4>
+			<h2 class="ui dividing header">Cadastrar Equipamento</h2>
 			<div class="required field {{ $errors->has('code') ? 'error' : '' }}">
 				{!! Form::label('code', 'Código') !!}
 				{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}

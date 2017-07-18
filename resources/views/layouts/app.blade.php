@@ -42,7 +42,7 @@
 
 	<script type="text/javascript" src="{{URL::asset('js/jquery-3.2.1.min.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('semantic-ui/semantic.min.js')}}"></script>
-
+	<script type="text/javascript" src="{{URL::asset('js/jquery.mask.min.js')}}"></script>
 	@yield('scripts')
 	<script type="text/javascript" src="{{URL::asset('js/help.js')}}"></script>
 </body>

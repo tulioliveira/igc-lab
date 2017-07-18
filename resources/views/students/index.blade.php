@@ -8,7 +8,7 @@
 	<div class="ui form margin bottom small">
 		<div class="fields">
 			<div class="three wide field">
-				<a class="ui animated fade button green fluid" tabindex="0" href="/students/create" data-content="Adicionar um novo aluno ao sistema" data-variation="wide" data-position="top left">
+				<a class="ui animated fade button green fluid" tabindex="0" href="/students/create" data-content="Cadastrar um novo aluno no sistema" data-variation="wide" data-position="top left">
 					<div class="visible content">Novo Aluno</div>
 					<div class="hidden content">
 						<i class="icon add"></i>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-	@if (empty($students))
+	@if (count($students) == 0)
 		<div class="ui icon warning message">
 			<i class="huge comments outline icon"></i>
 			<div class="content">
@@ -48,7 +48,7 @@
 			<tbody>
 				@foreach($students as $student)
 					<tr>
-						<td class="center aligned">{{$student->id}}</td>
+						<td class="center aligned">{{$student->enrollment}}</td>
 						<td class="center aligned">{{$student->cpf}}</td>
 						<td class="center aligned">{{$student->name}}</td>
 						<td class="center aligned">{{$student->email}}</td>
@@ -62,18 +62,21 @@
 										<i class="icon search"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button primary" tabindex="0" href="/students" @if($loop->first) data-content="Editar as informações do aluno" data-variation="wide" data-position="top center" @endif>
+								<a class="ui animated fade button primary" tabindex="0" href="/students/{{$student->id}}/edit" @if($loop->first) data-content="Editar as informações do aluno" data-variation="wide" data-position="top center" @endif>
 									<div class="visible content">Editar</div>
 									<div class="hidden content">
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button negative" tabindex="0" href="/students" @if($loop->first) data-content="Remover o aluno do sistema" data-position="bottom right" @endif>
-									<div class="visible content">Deletar</div>
-									<div class="hidden content">
-										<i class="icon remove"></i>
-									</div>
-								</a>
+								{!! Form::open(['method'=>'DELETE', 'action'=>['StudentsController@destroy', $student->id], 'class'=>'ui form']) !!}
+									{{csrf_field()}}
+									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o aluno do sistema" data-position="bottom right" @endif>
+										<div class="visible content">Deletar</div>
+										<div class="hidden content">
+											<i class="icon remove"></i>
+										</div>
+									</button>
+								{!! Form::close() !!}
 							</div>
 						</td>
 					</tr>

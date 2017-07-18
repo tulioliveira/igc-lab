@@ -6,7 +6,7 @@
 			<div class="ui error message">
 				<i class="close icon"></i>
 				<div class="header">
-					O formulário de criação apresentou alguns erros:
+					O formulário de edição apresentou os seguintes erros:
 				</div>
 				<ul class="list">
 					@foreach($errors->all() as $message)
@@ -18,7 +18,7 @@
 		<div class="ui segment raised">
 			{!! Form::model($equipment, ['method'=>'PATCH', 'action'=>['EquipmentController@update', $equipment->id], 'class'=>'ui form']) !!}
 				{{csrf_field()}}
-				<h4 class="ui dividing header">Cadastrar Equipamento</h4>
+				<h2 class="ui dividing header">Cadastrar Equipamento</h2>
 				<div class="required field {{ $errors->has('code') ? 'error' : '' }}">
 					{!! Form::label('code', 'Código') !!}
 					{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
@@ -47,7 +47,7 @@
 			Esse equipamento não existe!
 		</h2>
 		<div class="ui container center aligned">
-			<a class="ui primary button" href="/equipment">Voltar</a>
+			<a class="ui primary button" href="/equipment"><i class="icon left arrow"></i>Voltar</a>
 		</div>
 	@endif
 @stop
