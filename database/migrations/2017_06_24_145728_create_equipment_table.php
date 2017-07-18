@@ -14,7 +14,8 @@ class CreateEquipmentTable extends Migration
     public function up()
     {
         Schema::create('equipment', function (Blueprint $table) {
-            $table->integer('id')->unsigned()->primary();
+            $table->increments('id');
+            $table->string('code')->unique();
             $table->string('name');
             $table->text('description');
             $table->timestamps();

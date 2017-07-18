@@ -45,7 +45,7 @@
 			<tbody>
 				@foreach($equipment as $equip)
 					<tr>
-						<td class="center aligned">{{$equip->id}}</td>
+						<td class="center aligned">{{$equip->code}}</td>
 						<td class="center aligned">{{$equip->name}}</td>
 						<td>{{$equip->description}}</td>
 						<td>
@@ -62,16 +62,15 @@
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								<form method="POST" action="/equipment/{{$equip->id}}">
+								{!! Form::open(['method'=>'DELETE', 'action'=>['EquipmentController@destroy', $equip->id], 'class'=>'ui form']) !!}
 									{{csrf_field()}}
-									<input type="hidden" name="_method" value="DELETE">
 									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o equipamento do sistema" data-position="bottom right" @endif>
 										<div class="visible content">Deletar</div>
 										<div class="hidden content">
 											<i class="icon remove"></i>
 										</div>
 									</button>
-								</form>
+								{!! Form::close() !!}
 							</div>
 						</td>
 					</tr>

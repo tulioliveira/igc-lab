@@ -2,29 +2,41 @@
 
 @section('content')
 	@if (isset($equipment))
+		@if($errors->any())
+			<div class="ui error message">
+				<i class="close icon"></i>
+				<div class="header">
+					O formulário de criação apresentou alguns erros:
+				</div>
+				<ul class="list">
+					@foreach($errors->all() as $message)
+						<li>{{$message}}</li>
+					@endforeach
+				</ul>
+			</div>
+		@endif
 		<div class="ui segment raised">
-		<form class="ui form" method="POST" action="/equipment/{{$equipment->id}}">
+			{!! Form::model($equipment, ['method'=>'PATCH', 'action'=>['EquipmentController@update', $equipment->id], 'class'=>'ui form']) !!}
 				{{csrf_field()}}
-				<input type="hidden" name="_method" value="PUT">
-				<h4 class="ui dividing header">Editar Equipamento</h4>
-				<div class="required field">
-					<label>Código</label>
-					<input type="text" name="id" placeholder="Código do Equipamento" value={{$equipment->id}}>
+				<h4 class="ui dividing header">Cadastrar Equipamento</h4>
+				<div class="required field {{ $errors->has('code') ? 'error' : '' }}">
+					{!! Form::label('code', 'Código') !!}
+					{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
 				</div>
-				<div class="required field">
-					<label>Nome</label>
-					<input type="text" name="name" placeholder="Nome do Equipamento" value={{$equipment->name}}>
+				<div class="required field {{ $errors->has('name') ? 'error' : '' }}">
+					{!! Form::label('name', 'Nome') !!}
+					{!! Form::text('name', null, ['placeholder'=>'Nome do Equipamento']) !!}
 				</div>
-				<div class="required field">
-					<label>Descrição</label>
-					<textarea name="description" rows="3">{{$equipment->description}}</textarea>
+				<div class="required field {{ $errors->has('description') ? 'error' : '' }}">
+					{!! Form::label('description', 'Descrição') !!}
+					{!! Form::textarea('description', null, ['rows'=>'3']) !!}
 				</div>
 				<div class="ui buttons fluid">
 					<a class="ui button" href="/equipment">Cancelar</a>
 					<div class="or" data-text="ou"></div>
-					<button class="ui positive button" type="submit">Salvar</button>
+					{!! Form::submit('Salvar', ['class'=>'ui positive button']) !!}
 				</div>
-			</form>
+			{!! Form::close() !!}
 		</div>
 	@else
 		<h1 class="ui center red aligned icon header">
@@ -41,5 +53,9 @@
 @stop
 
 @section('scripts')
-
+	<script type="text/javascript">
+		$('.message .close').on('click', function() {
+			$(this).closest('.message').transition('fade');
+		});
+	</script>
 @stop

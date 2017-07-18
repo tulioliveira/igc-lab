@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EquipmentRequest;
 use App\Equipment;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class EquipmentController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(EquipmentRequest $request)
 	{
 		Equipment::create($request->all());
 	
@@ -74,7 +75,7 @@ class EquipmentController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id)
+	public function update(EquipmentRequest $request, $id)
 	{
 		$equipment = Equipment::find($id);
 

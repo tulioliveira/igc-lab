@@ -8,14 +8,13 @@
 					<h1 class="ui header" data-content="Nome do equipamento" data-position="top left">
 						{{$equipment->name}} 
 						<div class="ui label" data-content="Código do equipamento" data-position="right center">
-							<i class="settings icon"></i> Id:{{$equipment->id}}
+							<i class="settings icon"></i> Código:{{$equipment->code}}
 						</div>
 					</h1>
 				</div>
 				<div class="four wide column">
-					<form class="ui form" method="POST" action="/equipment/{{$equipment->id}}">
+					{!! Form::open(['method'=>'DELETE', 'action'=>['EquipmentController@destroy', $equipment->id], 'class'=>'ui form']) !!}
 						{{csrf_field()}}
-						<input type="hidden" name="_method" value="DELETE">
 						<div class="ui buttons right floated">
 							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o equipamento do sistema" data-position="left center">
 								<div class="visible content">Deletar</div>
@@ -30,7 +29,7 @@
 								</div>
 							</a>
 						</div>
-					</form>	
+					{!! Form::close() !!}
 				</div>
 			</div>
 			<div class="ui divider"></div>

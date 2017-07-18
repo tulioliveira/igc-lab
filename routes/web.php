@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::resource('students', 'StudentsController');
 
-Route::resource('equipment', 'EquipmentController');
+Route::group(['middleware'=>'web'], function () {
+	Route::resource('students', 'StudentsController');
+
+	Route::resource('equipment', 'EquipmentController');
+});
