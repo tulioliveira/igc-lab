@@ -18,9 +18,15 @@
 		{!! Form::open(['method'=>'POST', 'action'=>'EquipmentController@store', 'class'=>'ui form']) !!}
 			{{csrf_field()}}
 			<h2 class="ui dividing header">Cadastrar Equipamento</h2>
-			<div class="required field {{ $errors->has('code') ? 'error' : '' }}">
-				{!! Form::label('code', 'Código') !!}
-				{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
+			<div class="fields">
+				<div class="eight wide required field {{ $errors->has('code') ? 'error' : '' }}">
+					{!! Form::label('code', 'Código') !!}
+					{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
+				</div>
+				<div class="eight wide required field {{ $errors->has('time') ? 'error' : '' }}">
+					{!! Form::label('time', 'Duração de Empréstimo (em dias)') !!}
+					{!! Form::text('time', null, ['placeholder'=>'Duração de Empréstimo']) !!}
+				</div>
 			</div>
 			<div class="required field {{ $errors->has('name') ? 'error' : '' }}">
 				{!! Form::label('name', 'Nome') !!}

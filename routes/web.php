@@ -23,4 +23,8 @@ Route::group(['middleware'=>'web'], function () {
 	Route::resource('students', 'StudentsController');
 
 	Route::resource('equipment', 'EquipmentController');
+
+	Route::get('/loans', 'LoansController@index')->name('loans.index');
+
+	Route::post('/loans', 'LoansController@store')->name('loans.store');
 });

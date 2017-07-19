@@ -7,9 +7,18 @@
 				<div class="twelve wide column">
 					<h1 class="ui header" data-content="Nome do equipamento" data-position="top left">
 						{{$equipment->name}} 
-						<div class="ui label" data-content="Código do equipamento" data-position="right center">
+						<div class="ui label" data-content="Código do equipamento" data-position="bottom center">
 							<i class="settings icon"></i>Código: {{$equipment->code}}
 						</div>
+						@if($equipment->isLoaned())
+							<div class="ui label red" data-content="Status do equipamento" data-position="right center">
+								Emprestado
+							</div>
+						@else
+							<div class="ui label green" data-content="Status do equipamento" data-position="right center">
+								Disponível
+							</div>
+						@endif
 					</h1>
 				</div>
 				<div class="four wide column">
@@ -33,7 +42,8 @@
 				</div>
 			</div>
 			<div class="ui divider"></div>
-			<span class="ui" data-content="Descrição do equipamento" data-position="bottom left">{{$equipment->description}}</span>
+			<span class="ui" data-content="Descrição do equipamento" data-position="bottom left">{{$equipment->description}}</span><br/>
+			<span><strong>Duração de Empréstimo:</strong> {{$equipment->time}} dias</span>
 			
 		</div>
 	@else

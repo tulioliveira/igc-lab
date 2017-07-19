@@ -37,6 +37,7 @@ class EquipmentRequest extends FormRequest
             {
                 return [
                     'code'        => 'required|alpha_num|unique:equipment',
+                    'time'        => 'required|integer',
                     'name'        => 'required|alpha_dash|max:60',
                     'description' => 'required',
                 ];
@@ -46,6 +47,7 @@ class EquipmentRequest extends FormRequest
             {
                 return [
                     'code'        => 'required|alpha_num|unique:equipment,code,' . $equip->id,
+                    'time'        => 'required|integer',
                     'name'        => 'required|alpha_dash|max:60',
                     'description' => 'required',
                 ];
@@ -63,6 +65,7 @@ class EquipmentRequest extends FormRequest
     {
         return [
             'code'        => 'Código',
+            'time'        => 'Duração de Empréstimo',
             'name'        => 'Nome',
             'description' => 'Descrição',
         ];
