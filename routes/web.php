@@ -27,4 +27,6 @@ Route::group(['middleware'=>'web'], function () {
 	Route::get('/loans', 'LoansController@index')->name('loans.index');
 
 	Route::post('/loans', 'LoansController@store')->name('loans.store');
+
+	Route::post('/loans/return', 'LoansController@return')->name('loans.return');
 });

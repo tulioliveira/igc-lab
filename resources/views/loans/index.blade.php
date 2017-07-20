@@ -5,64 +5,67 @@
 		<i class="exchange icon"></i>
 		Empréstimos
 	</h1>
-	<div class="ui form margin bottom small">
-		<div class="fields">
-			<div class="three wide field">
-				<a class="ui animated fade button green fluid" tabindex="0" href="/students/create" data-content="Cadastrar um novo aluno no sistema" data-variation="wide" data-position="top left">
-					<div class="visible content">Novo Aluno</div>
-					<div class="hidden content">
-						<i class="icon add"></i>
-					</div>
-				</a>
-			</div>
-			<div class="thirteen wide field">
-				<div class="ui fluid icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide" data-position="top right">
-					<input type="text" placeholder="Buscar alunos" name="query" id="queryInput">
-					<i class="search icon"></i>
-				</div>
-			</div>
-		</div>
-	</div>
-	@if($errors->any())
+	@if($errors->loanErrors->any())
 		<div class="ui error message">
 			<i class="close icon"></i>
 			<div class="header">
 				O formulário de empréstimo apresentou os seguintes erros:
 			</div>
 			<ul class="list">
-				@foreach($errors->all() as $message)
+				@foreach($errors->loanErrors->all() as $message)
 					<li>{{$message}}</li>
 				@endforeach
 			</ul>
 		</div>
 	@endif
-	<div class="ui segment raised">
-		{!! Form::open(['method'=>'POST', 'action'=>'LoansController@store', 'class'=>'ui form']) !!}
-			{{csrf_field()}}
-			<h2 class="ui dividing header">Empréstimo</h2>
-			<div class="fields">
-				<div class="four wide required field {{ $errors->has('student_enrollment') ? 'error' : '' }}">
-					{!! Form::label('student_enrollment', 'Matrícula') !!}
-					{!! Form::text('student_enrollment', null, ['placeholder'=>'Matrícula do Aluno', 'data-mask' => '0000000000']) !!}
-				</div>
-				<div class="eight wide required field {{ $errors->has('equipment_code') ? 'error' : '' }}">
-					{!! Form::label('equipment_code', 'Código') !!}
-					{!! Form::text('equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
-				</div>
-				<div class="four wide required field {{ $errors->has('deadline') ? 'error' : '' }}">
-					{!! Form::label('deadline', 'Data Limite para Devolução') !!}
-					<div class="ui calendar" id="deadlineCalendar">
-						{!! Form::text('deadline', null, ['placeholder'=>'Data limite']) !!}
+	@if($errors->returnErrors->any())
+		<div class="ui error message">
+			<i class="close icon"></i>
+			<div class="header">
+				O formulário de devolução apresentou os seguintes erros:
+			</div>
+			<ul class="list">
+				@foreach($errors->returnErrors->all() as $message)
+					<li>{{$message}}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
+	<div class="ui two column grid">
+		<div class="column">
+			<div class="ui segment raised">
+				{!! Form::open(['method'=>'POST', 'action'=>'LoansController@store', 'class'=>'ui form']) !!}
+					{{csrf_field()}}
+					<h2 class="ui dividing header">Empréstimo</h2>
+					<div class="fields">
+						<div class="eight wide required field {{ $errors->loanErrors->has('student_enrollment') ? 'error' : '' }}">
+							{!! Form::label('student_enrollment', 'Matrícula') !!}
+							{!! Form::text('student_enrollment', null, ['placeholder'=>'Matrícula do Aluno', 'data-mask' => '0000000000']) !!}
+						</div>
+						<div class="eight wide required field {{ $errors->loanErrors->has('loan_equipment_code') ? 'error' : '' }}">
+							{!! Form::label('loan_equipment_code', 'Código') !!}
+							{!! Form::text('loan_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
+						</div>
 					</div>
-				</div>
+					{!! Form::submit('Emprestar', ['class'=>'ui primary button']) !!}
+				{!! Form::close() !!}
 			</div>
-			<div class="ui buttons fluid">
-				<a class="ui button" href="/equipment">Cancelar</a>
-				<div class="or" data-text="ou"></div>
-				{!! Form::submit('Emprestar', ['class'=>'ui positive button']) !!}
+		</div>
+		<div class="column">
+			<div class="ui segment raised">
+				{!! Form::open(['method'=>'POST', 'action'=>'LoansController@return', 'class'=>'ui form']) !!}
+					{{csrf_field()}}
+					<h2 class="ui dividing header">Devolução</h2>
+					<div class="required field {{ $errors->returnErrors->has('return_equipment_code') ? 'error' : '' }}">
+						{!! Form::label('return_equipment_code', 'Código') !!}
+						{!! Form::text('return_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
+					</div>
+					{!! Form::submit('Devolver', ['class'=>'ui secondary button']) !!}
+				{!! Form::close() !!}
 			</div>
-		{!! Form::close() !!}
+		</div>
 	</div>
+	
 	@if (count($loans) == 0)
 		<div class="ui icon warning message">
 			<i class="huge comments outline icon"></i>
@@ -73,52 +76,26 @@
 			</div>
 		</div>
 	@else
-		<table class="ui teal fixed celled table" id="studentsTable">
+		<table class="ui teal fixed celled table" id="loansTable">
 			<thead>
 				<tr>
 					<th class="center aligned two wide">Matrícula do Aluno</th>
 					<th class="center aligned two wide">Código do Equipamento</th>
-					<th class="center aligned two wide">Data do Empréstimo</th>
-					<th class="center aligned two wide">Data Limite para Devolução</th>
-					<th class="center aligned two wide">Data de Devolução</th>
-					<th class="center aligned two wide">Estado</th>
-					<th class="center aligned four wide">Opções</th>
+					<th class="center aligned three wide">Data do Empréstimo</th>
+					<th class="center aligned three wide">Data Limite para Devolução</th>
+					<th class="center aligned three wide">Data de Devolução</th>
+					<th class="center aligned three wide">Estado</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach($loans as $loan)
-					<tr>
-						<td class="center aligned">{{$loan->student->enrollment}}</td>
-						<td class="center aligned">{{$loan->equipment->code}}</td>
-						<td class="center aligned">{{$loan->loaned_on}}</td>
-						<td class="center aligned">{{$loan->deadline}}</td>
-						<td class="center aligned">{{$loan->returned_on}}</td>
+					<tr @if($loan->isLate()) class="error" @endif>
+						<td class="center aligned"><a href='/students/{{$loan->student->id}}'>{{$loan->student->enrollment}}</a></td>
+						<td class="center aligned"><a href='/equipment/{{$loan->equipment->id}}'>{{$loan->equipment->code}}</a></td>
+						<td class="center aligned">{{$loan->loaned_on->format('d/m/Y H:i:s')}}</td>
+						<td class="center aligned">{{$loan->deadline->format('d/m/Y H:i:s')}}</td>
+						<td class="center aligned">{{$loan->returned_on ? $loan->returned_on->format('d/m/Y H:i:s') : ''}}</td>
 						<td class="center aligned">{{$loan->status()}}</td>
-						<td>
-							<div class="ui buttons small fluid">
-								<a class="ui animated fade button " tabindex="0" href="/students/{{$loan->id}}" @if($loop->first) data-content="Visualizar mais detalhes" data-position="left center" @endif>
-									<div class="visible content">Ver</div>
-									<div class="hidden content">
-										<i class="icon search"></i>
-									</div>
-								</a>
-								<a class="ui animated fade button primary" tabindex="0" href="/students/{{$loan->id}}/edit" @if($loop->first) data-content="Editar as informações do aluno" data-variation="wide" data-position="top center" @endif>
-									<div class="visible content">Editar</div>
-									<div class="hidden content">
-										<i class="icon edit"></i>
-									</div>
-								</a>
-								{!! Form::open(['method'=>'DELETE', 'action'=>['StudentsController@destroy', $loan->id], 'class'=>'ui form']) !!}
-									{{csrf_field()}}
-									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o aluno do sistema" data-position="bottom right" @endif>
-										<div class="visible content">Deletar</div>
-										<div class="hidden content">
-											<i class="icon remove"></i>
-										</div>
-									</button>
-								{!! Form::close() !!}
-							</div>
-						</td>
 					</tr>
 				@endforeach
 			</tbody>
@@ -135,7 +112,7 @@
 				var value = $(this).val();
 				var patt = new RegExp(value, "i");
 
-				$('table#studentsTable tbody').find('tr').each(function() {
+				$('table#loansTable tbody').find('tr').each(function() {
 					if (!($(this).find('td').text().search(patt) >= 0)) {
 						$(this).hide();
 					}
@@ -148,29 +125,6 @@
 
 		$('.message .close').on('click', function() {
 			$(this).closest('.message').transition('fade');
-		});
-
-		$('#deadlineCalendar').calendar({
-			type: 'date',
-			ampm: false,
-			text: {
-				days: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-				months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'May', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-				monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-				today: 'Hoje',
-				now: 'Agora',
-				am: 'AM',
-				pm: 'PM'
-			},
-			formatter: {
-				date: function (date, settings) {
-					if (!date) return '';
-					var day = date.getDate();
-					var month = date.getMonth() + 1;
-					var year = date.getFullYear();
-					return day + '/' + month + '/' + year;
-				}
-			}
 		});
 	</script>
 @stop

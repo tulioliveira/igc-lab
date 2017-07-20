@@ -32,11 +32,21 @@ class Loan extends Model
 		return $this->belongsTo('App\Equipment');
 	}
 
+	public function isLate()  {
+		if ((!$this->returned_on) && ($this->deadline->lt(Carbon::now())))
+			return true;
+		else
+			return false;
+	}
+
 	public function status() {
-		$current_time = Carbon::now()->toDayDateTimeString();
-		if ($this->returned_on)
-			return "Entregue";
-		else{
+		if ($this->returned_on) {
+			if($this->deadline->lt($this->returned_on))
+				return "Entregue com Atraso";
+			else
+				return "Entregue";
+		}
+		else {
 			if($this->deadline->lt(Carbon::now()))
 				return "Atrasado";
 			else

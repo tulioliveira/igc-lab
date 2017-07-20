@@ -11,7 +11,7 @@ class Equipment extends Model
 	protected $guarded = [];
 
 	public function loans(){
-		return $this->hasMany('App\Loan');
+		return $this->hasMany('App\Loan')->orderBy('loaned_on', 'desc');
 	}
 
 	public function students(){
