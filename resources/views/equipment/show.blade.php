@@ -45,7 +45,7 @@
 			<span class="ui" data-content="Descrição do equipamento" data-position="bottom left">{{$equipment->description}}</span><br/>
 			<span><strong>Duração de Empréstimo:</strong> {{$equipment->time}} dias</span>
 			<h3 class="ui header"> Empréstimos</h3>
-			@if (count($equipment->loans) == 0)
+			@if (count($loans) == 0)
 				<div class="ui icon warning message">
 					<i class="huge comments outline icon"></i>
 					<div class="content">
@@ -55,6 +55,11 @@
 					</div>
 				</div>
 			@else
+				<div class="ui two column center aligned grid" @if($loans->lastPage() > 1) data-content="A tabela de empréstimos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+					<div class="column">
+						{{$loans->links()}}
+					</div>
+				</div>
 				<table class="ui teal fixed celled table" id="loansTable">
 					<thead>
 						<tr>
@@ -66,7 +71,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($equipment->loans as $loan)
+						@foreach($loans as $loan)
 							<tr @if($loan->isLate()) class="error" @endif>
 								<td class="center aligned"><a href='/students/{{$loan->student->id}}'>{{$loan->student->enrollment}}</a></td>
 								<td class="center aligned">{{$loan->loaned_on->format('d/m/Y H:i:s')}}</td>

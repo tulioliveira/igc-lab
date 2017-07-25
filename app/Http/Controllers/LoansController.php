@@ -18,7 +18,7 @@ class LoansController extends Controller
 	 */
 	public function index()
 	{
-		$loans = Loan::orderBy('loaned_on', 'desc')->get();
+		$loans = Loan::latest()->paginate(20);
 		return view('loans.index', compact('loans'));
 	}
 
@@ -70,6 +70,11 @@ class LoansController extends Controller
 		return redirect('/loans');
 	}
 
+	/**
+	 * Update a loan return datetime to now()
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function return(Request $request) {
 		$messages = [
 			'return_equipment_code.required'  => 'O campo Código é obrigatório.',
@@ -94,5 +99,16 @@ class LoansController extends Controller
 		}
 
 		return redirect('/loans');
+	}
+
+	/**
+	 * Show the latest loans and most required equipment
+	 * @return \Illuminate\Http\Response
+	 */
+	public function main(){
+		$loans = Loan::orderBy('created_at', 'desc')->take(5)->get();
+		$equipment = Equipment::withCount('loans')->orderBy('loans_count', 'desc')->take(20)->get();
+
+		return view('index', compact('loans', 'equipment'));
 	}
 }

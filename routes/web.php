@@ -14,12 +14,9 @@ use App\Equipment;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
-
 Route::group(['middleware'=>'web'], function () {
+	Route::get('/', 'LoansController@main')->name('loans.main');
+
 	Route::resource('students', 'StudentsController');
 
 	Route::resource('equipment', 'EquipmentController');

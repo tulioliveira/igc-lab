@@ -15,7 +15,7 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::latest()->paginate(20);
         return view('students.index', compact('students'));
     }
 
@@ -51,8 +51,9 @@ class StudentsController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
+        $loans = $student->loans()->paginate(20);
 
-        return view('students.show', compact('student'));
+        return view('students.show', compact('student', 'loans'));
     }
 
     /**

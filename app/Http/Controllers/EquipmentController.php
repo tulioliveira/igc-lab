@@ -15,7 +15,7 @@ class EquipmentController extends Controller
 	 */
 	public function index()
 	{
-		$equipment = Equipment::all();
+		$equipment = Equipment::latest()->paginate(20);
 		return view('equipment.index', compact('equipment'));
 	}
 
@@ -51,8 +51,9 @@ class EquipmentController extends Controller
 	public function show($id)
 	{
 		$equipment = Equipment::find($id);
+		$loans = $equipment->loans()->paginate(20);
 
-		return view('equipment.show', compact('equipment'));
+		return view('equipment.show', compact('equipment', 'loans'));
 	}
 
 	/**

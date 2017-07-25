@@ -32,13 +32,13 @@
 				<i class="exchange icon"></i>Empréstimos
 			</a>
 			<div class="right menu">
-				<button class="item circular ui icon button" id="help-button" data-content="Coloque o cursor sobre esse botão para exibir balões de ajuda na página!" data-variation="flowing" data-position="left center">
+				<button class="item circular ui icon button" id="help-button" data-content="Coloque o cursor sobre esse ícone para exibir balões de ajuda na página!" data-variation="flowing" data-position="left center">
 					<i class="icon help circle large"></i>
 				</button>
 			</div>
 		</div>
 	</div>
-	<div class="ui container">
+	<div class="ui container margin bottom">
 		@yield('content')
 	</div>
 	

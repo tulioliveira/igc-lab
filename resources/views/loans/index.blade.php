@@ -36,7 +36,7 @@
 			<div class="ui segment raised">
 				{!! Form::open(['method'=>'POST', 'action'=>'LoansController@store', 'class'=>'ui form']) !!}
 					{{csrf_field()}}
-					<h2 class="ui dividing header">Empréstimo</h2>
+					<h2 class="ui dividing header" data-content="Preencha os campos abaixo para realizar o empréstimo de um equipamento. Ao realizar um novo empréstimo, o sistema irá automaticamente efetuar a devolução do equipamento para qualquer empréstimo em aberto no horário atual" data-position="top left" data-variation="wide">Empréstimo</h2>
 					<div class="fields">
 						<div class="eight wide required field {{ $errors->loanErrors->has('student_enrollment') ? 'error' : '' }}">
 							{!! Form::label('student_enrollment', 'Matrícula') !!}
@@ -55,7 +55,7 @@
 			<div class="ui segment raised">
 				{!! Form::open(['method'=>'POST', 'action'=>'LoansController@return', 'class'=>'ui form']) !!}
 					{{csrf_field()}}
-					<h2 class="ui dividing header">Devolução</h2>
+					<h2 class="ui dividing header" data-content="Preencha o campo de devolução com o código do equipamento a ser devolvido digitando-o ou por meio do leitor de código de barra. O sistema irá efetuar a devolução do equipamento para o horário atual" data-position="top left" data-variation="wide">Devolução</h2>
 					<div class="required field {{ $errors->returnErrors->has('return_equipment_code') ? 'error' : '' }}">
 						{!! Form::label('return_equipment_code', 'Código') !!}
 						{!! Form::text('return_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
@@ -76,7 +76,12 @@
 			</div>
 		</div>
 	@else
-		<table class="ui teal fixed celled table" id="loansTable">
+		<div class="ui two column center aligned grid" @if($loans->lastPage() > 1) data-content="A tabela de empréstimos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+			<div class="column">
+				{{$loans->links()}}
+			</div>
+		</div>
+		<table class="ui teal fixed celled table" id="loansTable" data-content="Empréstimos em atraso serão exibidos em vermelho" data-position="top right" data-variation="wide">
 			<thead>
 				<tr>
 					<th class="center aligned two wide">Matrícula do Aluno</th>

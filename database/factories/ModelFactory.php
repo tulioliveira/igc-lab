@@ -22,3 +22,30 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Equipment::class, function (Faker\Generator $faker) {
+    return [
+        'code' => $faker->unique()->isbn10,
+        'time' => $faker->numberBetween(0, 3),
+        'name' => $faker->name,
+        'description' => $faker->paragraph(2)
+    ];
+});
+
+$factory->define(App\Student::class, function (Faker\Generator $faker) {
+    return [
+    	'enrollment' => $faker->unique()->numerify('##########'),
+        'cpf'        => $faker->unique()->numerify('###.###.###-##'),
+        'name'       => $faker->name,
+        'email'      => $faker->email,
+        'course'     => $faker->name,
+        'zipcode'    => $faker->unique()->numerify('#####-###'),
+        'street'     => $faker->streetName,
+        'city'       => $faker->city,
+        'state'      => 'MG',
+        'number'     => $faker->unique()->numerify('###'),
+        'complement' => $faker->catchPhrase,
+        'phone'      => $faker->unique()->numerify('(31)99###-####'),
+    ];
+});
+

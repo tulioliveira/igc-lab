@@ -33,6 +33,12 @@
 			</div>
 		</div>
 	@else
+		<div class="ui two column center aligned grid" @if($equipment->lastPage() > 1) data-content="A tabela de equipamentos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+			<div class="column">
+				{{$equipment->links()}}
+
+			</div>
+		</div>
 		<table class="ui teal fixed celled table" id="equipmentTable">
 			<thead>
 				<tr>

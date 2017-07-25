@@ -33,6 +33,11 @@
 			</div>
 		</div>
 	@else
+		<div class="ui two column center aligned grid" @if($students->lastPage() > 1) data-content="A tabela de alunos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+			<div class="column">
+				{{$students->links()}}
+			</div>
+		</div>
 		<table class="ui teal fixed celled table" id="studentsTable">
 			<thead>
 				<tr>
@@ -51,7 +56,7 @@
 						<td class="center aligned">{{$student->enrollment}}</td>
 						<td class="center aligned">{{$student->cpf}}</td>
 						<td class="center aligned">{{$student->name}}</td>
-						<td class="center aligned">{{$student->email}}</td>
+						<td class="center aligned"><a target="_blank" href="mailto:{{$student->email}}">{{$student->email}}</a></td>
 						<td class="center aligned">{{$student->course}}</td>
 						<td class="center aligned">{{$student->phone}}</td>
 						<td>
