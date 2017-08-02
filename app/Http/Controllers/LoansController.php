@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Loan;
-use App\Student;
+use App\User;
 use App\Equipment;
 use Carbon\Carbon;
 
@@ -30,25 +30,43 @@ class LoansController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$messages = [
-			'student_enrollment.required'   => 'O campo Matrícula é obrigatório.',
-			'student_enrollment.size'       => 'O campo Matrícula deve ter 10 caracteres.',
-			'student_enrollment.exists'     => 'Matrícula selecionada é inválida.',
-			'loan_equipment_code.required'  => 'O campo Código é obrigatório.',
-			'loan_equipment_code.alpha_num' => 'Código deve conter somente letras e números.',
-			'loan_equipment_code.exists'    => 'Código selecionado é inválido.',
-		];
+		if ($request->user_type == "Aluno") {
+			$messages = [
+				'user_enrollment.required'   => 'O campo Matrícula é obrigatório.',
+				'user_enrollment.size'       => 'O campo Matrícula deve ter 10 dígitos.',
+				'user_enrollment.exists'     => 'Matrícula selecionada é inválida.',
+				'loan_equipment_code.required'  => 'O campo Código é obrigatório.',
+				'loan_equipment_code.alpha_num' => 'Código deve conter somente letras e números.',
+				'loan_equipment_code.exists'    => 'Código selecionado é inválido.',
+			];
 
-		$validator = Validator::make($request->all(), [
-			'student_enrollment'  => 'required|alpha_num|size:10|exists:students,enrollment', 
-			'loan_equipment_code' => 'required|alpha_num|exists:equipment,code',
-		], $messages);
+			$validator = Validator::make($request->all(), [
+				'user_enrollment'  => 'required|alpha_dash|size:10|exists:users,enrollment', 
+				'loan_equipment_code' => 'required|alpha_num|exists:equipment,code',
+			], $messages);
+		}
+		else {
+			$messages = [
+				'user_enrollment.required'   => 'O campo Matrícula é obrigatório.',
+				'user_enrollment.size'       => 'O campo Matrícula deve ter 7 dígitos.',
+				'user_enrollment.exists'     => 'Matrícula selecionada é inválida.',
+				'loan_equipment_code.required'  => 'O campo Código é obrigatório.',
+				'loan_equipment_code.alpha_num' => 'Código deve conter somente letras e números.',
+				'loan_equipment_code.exists'    => 'Código selecionado é inválido.',
+			];
+
+			$validator = Validator::make($request->all(), [
+				'user_enrollment'  => 'required|alpha_dash|size:8|exists:users,enrollment', 
+				'loan_equipment_code' => 'required|alpha_num|exists:equipment,code',
+			], $messages);
+		}
+		
 
 		if ($validator->fails()) {
 			return redirect('/loans')->withErrors($validator, 'loanErrors')->withInput();
 		}
 
-		$student = Student::where('enrollment', '=', $request->student_enrollment)->first();
+		$user = User::where('enrollment', '=', $request->user_enrollment)->first();
 		$equipment = Equipment::where('code', '=', $request->loan_equipment_code)->first();
 
 		// Verify if equipment has open loan
@@ -60,7 +78,7 @@ class LoansController extends Controller
 		// Create the new loan
 		$loan = new Loan;
 
-		$loan->student_id = $student->id;
+		$loan->user_id = $user->id;
 		$loan->equipment_id = $equipment->id;
 		$loan->loaned_on = Carbon::now();
 		$loan->deadline = Carbon::now()->addDays($equipment->time);

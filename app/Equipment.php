@@ -14,8 +14,8 @@ class Equipment extends Model
 		return $this->hasMany('App\Loan')->orderBy('loaned_on', 'desc');
 	}
 
-	public function students(){
-		return $this->belongsToMany('App\Student', 'loans')->withPivot('deadline', 'loaned_on','returned_on');
+	public function users(){
+		return $this->belongsToMany('App\User', 'loans')->withPivot('deadline', 'loaned_on','returned_on');
 	}
 
 	public function isLoaned() {

@@ -21,7 +21,7 @@
 		<table class="ui teal fixed celled table" id="loansTable" data-content="Empréstimos em atraso serão exibidos em vermelho" data-position="top right" data-variation="wide">
 			<thead>
 				<tr>
-					<th class="center aligned two wide">Matrícula do Aluno</th>
+					<th class="center aligned two wide">Matrícula do Usuário</th>
 					<th class="center aligned two wide">Código do Equipamento</th>
 					<th class="center aligned three wide">Data do Empréstimo</th>
 					<th class="center aligned three wide">Data Limite para Devolução</th>
@@ -32,7 +32,7 @@
 			<tbody>
 				@foreach($loans as $loan)
 					<tr @if($loan->isLate()) class="error" @endif>
-						<td class="center aligned"><a href='/students/{{$loan->student->id}}'>{{$loan->student->enrollment}}</a></td>
+						<td class="center aligned"><a href='/users/{{$loan->user->id}}'>{{$loan->user->enrollment}}</a></td>
 						<td class="center aligned"><a href='/equipment/{{$loan->equipment->id}}'>{{$loan->equipment->code}}</a></td>
 						<td class="center aligned">{{$loan->loaned_on->format('d/m/Y H:i:s')}}</td>
 						<td class="center aligned">{{$loan->deadline->format('d/m/Y H:i:s')}}</td>

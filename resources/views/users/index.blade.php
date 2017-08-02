@@ -2,14 +2,14 @@
 
 @section('content')
 	<h1 class="ui center aligned icon header">
-		<i class="student icon"></i>
-		Alunos
+		<i class="users icon"></i>
+		Usuários
 	</h1>
 	<div class="ui form margin bottom small">
 		<div class="fields">
 			<div class="three wide field">
-				<a class="ui animated fade button green fluid" tabindex="0" href="/students/create" data-content="Cadastrar um novo aluno no sistema" data-variation="wide" data-position="top left">
-					<div class="visible content">Novo Aluno</div>
+				<a class="ui animated fade button green fluid" tabindex="0" href="/users/create" data-content="Cadastrar um novo usuário no sistema" data-variation="wide" data-position="top left">
+					<div class="visible content">Novo Usuário</div>
 					<div class="hidden content">
 						<i class="icon add"></i>
 					</div>
@@ -17,65 +17,65 @@
 			</div>
 			<div class="thirteen wide field">
 				<div class="ui fluid icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide" data-position="top right">
-					<input type="text" placeholder="Buscar alunos" name="query" id="queryInput">
+					<input type="text" placeholder="Buscar usuários" name="query" id="queryInput">
 					<i class="search icon"></i>
 				</div>
 			</div>
 		</div>
 	</div>
-	@if (count($students) == 0)
+	@if (count($users) == 0)
 		<div class="ui icon warning message">
 			<i class="huge comments outline icon"></i>
 			<div class="content">
 				<div class="header">
-					Nenhum aluno encontrado
+					Nenhum usuário encontrado
 				</div>
 			</div>
 		</div>
 	@else
-		<div class="ui two column center aligned grid" @if($students->lastPage() > 1) data-content="A tabela de alunos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+		<div class="ui two column center aligned grid" @if($users->lastPage() > 1) data-content="A tabela de usuários é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
 			<div class="column">
-				{{$students->links()}}
+				{{$users->links()}}
 			</div>
 		</div>
-		<table class="ui teal fixed celled table" id="studentsTable">
+		<table class="ui teal fixed celled table" id="usersTable">
 			<thead>
 				<tr>
 					<th class="center aligned two wide">Matrícula</th>
 					<th class="center aligned two wide">CPF</th>
 					<th class="center aligned two wide">Nome</th>
 					<th class="center aligned two wide">Email</th>
-					<th class="center aligned two wide">Curso</th>
+					<th class="center aligned two wide">Curso/Setor</th>
 					<th class="center aligned two wide">Telefone</th>
 					<th class="center aligned four wide">Opções</th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach($students as $student)
+				@foreach($users as $user)
 					<tr>
-						<td class="center aligned">{{$student->enrollment}}</td>
-						<td class="center aligned">{{$student->cpf}}</td>
-						<td class="center aligned">{{$student->name}}</td>
-						<td class="center aligned"><a target="_blank" href="mailto:{{$student->email}}">{{$student->email}}</a></td>
-						<td class="center aligned">{{$student->course}}</td>
-						<td class="center aligned">{{$student->phone}}</td>
+						<td class="center aligned">{{$user->enrollment}}</td>
+						<td class="center aligned">{{$user->cpf}}</td>
+						<td class="center aligned">{{$user->first_name . " " . $user->last_name}}</td>
+						<td class="center aligned"><a target="_blank" href="mailto:{{$user->email}}">{{$user->email}}</a></td>
+						<td class="center aligned">@if($user->type == "Aluno") {{$user->course}} @else {{$user->department}} @endif</td>
+						<td class="center aligned">{{$user->phone}}</td>
 						<td>
 							<div class="ui buttons small fluid">
-								<a class="ui animated fade button " tabindex="0" href="/students/{{$student->id}}" @if($loop->first) data-content="Visualizar mais detalhes" data-position="left center" @endif>
+								<a class="ui animated fade button " tabindex="0" href="/users/{{$user->id}}" @if($loop->first) data-content="Visualizar mais detalhes" data-position="left center" @endif>
 									<div class="visible content">Ver</div>
 									<div class="hidden content">
 										<i class="icon search"></i>
 									</div>
 								</a>
-								<a class="ui animated fade button primary" tabindex="0" href="/students/{{$student->id}}/edit" @if($loop->first) data-content="Editar as informações do aluno" data-variation="wide" data-position="top center" @endif>
+								<a class="ui animated fade button primary" tabindex="0" href="/users/{{$user->id}}/edit" @if($loop->first) data-content="Editar as informações do usuário" data-variation="wide" data-position="top center" @endif>
 									<div class="visible content">Editar</div>
 									<div class="hidden content">
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								{!! Form::open(['method'=>'DELETE', 'action'=>['StudentsController@destroy', $student->id], 'class'=>'ui form']) !!}
+								{!! Form::open(['method'=>'DELETE', 'action'=>['usersController@destroy', $user->id], 'class'=>'ui form']) !!}
 									{{csrf_field()}}
-									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o aluno do sistema" data-position="bottom right" @endif>
+									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o usuário do sistema" data-position="bottom right" @endif>
 										<div class="visible content">Deletar</div>
 										<div class="hidden content">
 											<i class="icon remove"></i>
@@ -100,7 +100,7 @@
 				var value = $(this).val();
 				var patt = new RegExp(value, "i");
 
-				$('table#studentsTable tbody').find('tr').each(function() {
+				$('table#usersTable tbody').find('tr').each(function() {
 					if (!($(this).find('td').text().search(patt) >= 0)) {
 						$(this).hide();
 					}

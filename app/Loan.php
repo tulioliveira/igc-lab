@@ -24,8 +24,8 @@ class Loan extends Model
 		'returned_on'
 	];
 
-	public function student() {
-		return $this->belongsTo('App\Student');
+	public function user() {
+		return $this->belongsTo('App\User');
 	}
 
 	public function equipment() {

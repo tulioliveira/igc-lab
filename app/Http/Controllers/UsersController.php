@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StudentRequest;
-use App\Student;
+use App\Http\Requests\UserRequest;
+use App\User;
 use Illuminate\Http\Request;
 
-class StudentsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        $students = Student::latest()->paginate(20);
-        return view('students.index', compact('students'));
+        $users = User::latest()->paginate(20);
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -26,7 +26,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        return view('users.create');
     }
 
     /**
@@ -35,11 +35,11 @@ class StudentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StudentRequest $request)
+    public function store(Request $request)
     {
-        Student::create($request->all());
+        User::create($request->all());
     
-        return redirect('/students');
+        return redirect('/users');
     }
 
     /**
@@ -50,10 +50,10 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-        $student = Student::find($id);
-        $loans = $student->loans()->paginate(20);
+        $users = User::find($id);
+        $loans = $user->loans()->paginate(20);
 
-        return view('students.show', compact('student', 'loans'));
+        return view('users.show', compact('user', 'loans'));
     }
 
     /**
@@ -64,9 +64,9 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        $student = Student::find($id);
+        $user = User::find($id);
 
-        return view('students.edit', compact('student'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -76,13 +76,13 @@ class StudentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StudentRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $student = Student::find($id);
+        $user = User::find($id);
 
-        $student->update($request->all());
+        $user->update($request->all());
 
-        return redirect('/students/' . $id);
+        return redirect('/users/' . $id);
     }
 
     /**
@@ -93,8 +93,8 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        Student::whereId($id)->delete();
+        User::whereId($id)->delete();
 
-        return redirect('/students');
+        return redirect('/users');
     }
 }

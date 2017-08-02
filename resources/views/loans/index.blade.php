@@ -37,16 +37,31 @@
 				{!! Form::open(['method'=>'POST', 'action'=>'LoansController@store', 'class'=>'ui form']) !!}
 					{{csrf_field()}}
 					<h2 class="ui dividing header" data-content="Preencha os campos abaixo para realizar o empréstimo de um equipamento. Ao realizar um novo empréstimo, o sistema irá automaticamente efetuar a devolução do equipamento para qualquer empréstimo em aberto no horário atual" data-position="top left" data-variation="wide">Empréstimo</h2>
+					<div class="inline fields">
+						<div class="field">
+							<div class="ui radio checkbox">
+								{!! Form::radio('user_type', 'Aluno', true) !!}
+								{!! Form::label('user_type', 'Aluno') !!}
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui radio checkbox">
+								{!! Form::radio('user_type', 'Servidor') !!}
+								{!! Form::label('user_type', 'Servidor') !!}
+							</div>
+						</div>
+					</div>
 					<div class="fields">
-						<div class="eight wide required field {{ $errors->loanErrors->has('student_enrollment') ? 'error' : '' }}">
-							{!! Form::label('student_enrollment', 'Matrícula') !!}
-							{!! Form::text('student_enrollment', null, ['placeholder'=>'Matrícula do Aluno', 'data-mask' => '0000000000']) !!}
+						<div class="eight wide required field {{ $errors->loanErrors->has('user_enrollment') ? 'error' : '' }}">
+							{!! Form::label('user_enrollment', 'Matrícula') !!}
+							{!! Form::text('user_enrollment', null, ['placeholder'=>'Matrícula do Aluno', 'data-mask' => '0000000000']) !!}
 						</div>
 						<div class="eight wide required field {{ $errors->loanErrors->has('loan_equipment_code') ? 'error' : '' }}">
 							{!! Form::label('loan_equipment_code', 'Código') !!}
 							{!! Form::text('loan_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
 						</div>
 					</div>
+
 					{!! Form::submit('Emprestar', ['class'=>'ui primary button']) !!}
 				{!! Form::close() !!}
 			</div>
@@ -84,7 +99,7 @@
 		<table class="ui teal fixed celled table" id="loansTable" data-content="Empréstimos em atraso serão exibidos em vermelho" data-position="top right" data-variation="wide">
 			<thead>
 				<tr>
-					<th class="center aligned two wide">Matrícula do Aluno</th>
+					<th class="center aligned two wide">Matrícula do Usuário</th>
 					<th class="center aligned two wide">Código do Equipamento</th>
 					<th class="center aligned three wide">Data do Empréstimo</th>
 					<th class="center aligned three wide">Data Limite para Devolução</th>
@@ -95,7 +110,7 @@
 			<tbody>
 				@foreach($loans as $loan)
 					<tr @if($loan->isLate()) class="error" @endif>
-						<td class="center aligned"><a href='/students/{{$loan->student->id}}'>{{$loan->student->enrollment}}</a></td>
+						<td class="center aligned"><a href='/users/{{$loan->user->id}}'>{{$loan->user->enrollment}}</a></td>
 						<td class="center aligned"><a href='/equipment/{{$loan->equipment->id}}'>{{$loan->equipment->code}}</a></td>
 						<td class="center aligned">{{$loan->loaned_on->format('d/m/Y H:i:s')}}</td>
 						<td class="center aligned">{{$loan->deadline->format('d/m/Y H:i:s')}}</td>
@@ -113,6 +128,8 @@
 @section('scripts')
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$('.ui.checkbox').checkbox();
+
 			$('#queryInput').on('keyup', function() {
 				var value = $(this).val();
 				var patt = new RegExp(value, "i");
@@ -126,6 +143,23 @@
 					}
 				});
 			});
+
+			$('input[type=radio][name=user_type]').change(function() {
+				if (this.value == 'Aluno') {
+					$('#user_enrollment').val("");
+					$('#user_enrollment').attr("placeholder", "Matrícula do Aluno");
+					$('#user_enrollment').mask("0000000000");
+				}
+				else {
+					$('#user_enrollment').val("");
+					$('#user_enrollment').attr("placeholder", "Matrícula do Servidor");
+					$('#user_enrollment').mask("000000-0");
+				}
+			});
+
+			if ($('input[type=radio][name=user_type]').value != "Aluno") {
+				$('#user_enrollment').mask("000000-0");
+			}
 		});
 
 		$('.message .close').on('click', function() {

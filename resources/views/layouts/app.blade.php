@@ -20,10 +20,10 @@
 	<div class="ui attached menu inverted margin bottom small main">
 		<div class="ui container">
 			<a class="header item" href="/">
-				<h3 class="ui header inverted"><i class="world icon"></i>Laboratório IGC</h3>
+				<h3 class="ui header inverted"><i class="home icon"></i>Laboratório IGC</h3>
 			</a>
-			<a class="item" href="/students"> 
-				<i class="student icon"></i> Alunos 
+			<a class="item" href="/users"> 
+				<i class="users icon"></i> Usuários 
 			</a>
 			<a class="item" href="/equipment">
 				<i class="settings icon"></i>Equipamentos

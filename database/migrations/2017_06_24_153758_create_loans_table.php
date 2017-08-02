@@ -15,14 +15,14 @@ class CreateLoansTable extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('equipment_id')->unsigned();
             $table->datetime('deadline');
             $table->datetime('loaned_on');
             $table->datetime('returned_on')->nullable();
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('equipment_id')->references('id')->on('equipment')->onDelete('cascade');
         });
     }
