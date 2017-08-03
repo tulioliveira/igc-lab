@@ -81,7 +81,7 @@ class LoansController extends Controller
 		$loan->user_id = $user->id;
 		$loan->equipment_id = $equipment->id;
 		$loan->loaned_on = Carbon::now();
-		$loan->deadline = Carbon::now()->addDays($equipment->time);
+		$loan->deadline = Carbon::createFromFormat('d/m/Y', $request->deadline)->setTime(23,59,59);
 		
 		$loan->save();
 		

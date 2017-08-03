@@ -45,8 +45,7 @@
 					<th class="center aligned two wide">CPF</th>
 					<th class="center aligned two wide">Nome</th>
 					<th class="center aligned two wide">Email</th>
-					<th class="center aligned two wide">Curso/Setor</th>
-					<th class="center aligned two wide">Telefone</th>
+					<th class="center aligned four wide">Curso/Setor</th>
 					<th class="center aligned four wide">Opções</th>
 				</tr>
 			</thead>
@@ -58,7 +57,6 @@
 						<td class="center aligned">{{$user->first_name . " " . $user->last_name}}</td>
 						<td class="center aligned"><a target="_blank" href="mailto:{{$user->email}}">{{$user->email}}</a></td>
 						<td class="center aligned">@if($user->type == "Aluno") {{$user->course}} @else {{$user->department}} @endif</td>
-						<td class="center aligned">{{$user->phone}}</td>
 						<td>
 							<div class="ui buttons small fluid">
 								<a class="ui animated fade button " tabindex="0" href="/users/{{$user->id}}" @if($loop->first) data-content="Visualizar mais detalhes" data-position="left center" @endif>
@@ -73,7 +71,7 @@
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								{!! Form::open(['method'=>'DELETE', 'action'=>['usersController@destroy', $user->id], 'class'=>'ui form']) !!}
+								{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui form']) !!}
 									{{csrf_field()}}
 									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o usuário do sistema" data-position="bottom right" @endif>
 										<div class="visible content">Deletar</div>

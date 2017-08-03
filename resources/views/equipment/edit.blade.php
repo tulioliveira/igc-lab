@@ -22,16 +22,15 @@
 				<div class="fields">
 					<div class="eight wide required field {{ $errors->has('code') ? 'error' : '' }}">
 						{!! Form::label('code', 'Código') !!}
-						{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
+						<div class="ui icon input">
+							{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
+							<i class="circular barcode link icon"></i>
+						</div>
 					</div>
-					<div class="eight wide required field {{ $errors->has('time') ? 'error' : '' }}">
-						{!! Form::label('time', 'Duração de Empréstimo (em dias)') !!}
-						{!! Form::text('time', null, ['placeholder'=>'Duração de Empréstimo', 'data-mask'=>'0000']) !!}
+					<div class="eight wide required field {{ $errors->has('name') ? 'error' : '' }}">
+						{!! Form::label('name', 'Nome') !!}
+						{!! Form::text('name', null, ['placeholder'=>'Nome do Equipamento']) !!}
 					</div>
-				</div>
-				<div class="required field {{ $errors->has('name') ? 'error' : '' }}">
-					{!! Form::label('name', 'Nome') !!}
-					{!! Form::text('name', null, ['placeholder'=>'Nome do Equipamento']) !!}
 				</div>
 				<div class="required field {{ $errors->has('description') ? 'error' : '' }}">
 					{!! Form::label('description', 'Descrição') !!}

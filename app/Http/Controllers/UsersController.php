@@ -32,10 +32,10 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         User::create($request->all());
     
@@ -50,7 +50,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $users = User::find($id);
+        $user = User::find($id);
         $loans = $user->loans()->paginate(20);
 
         return view('users.show', compact('user', 'loans'));
@@ -72,11 +72,11 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UserRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
 

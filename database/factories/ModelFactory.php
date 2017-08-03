@@ -15,8 +15,7 @@
 $factory->define(App\Equipment::class, function (Faker\Generator $faker) {
     return [
         'code'        => $faker->unique()->isbn10,
-        'time'        => $faker->numberBetween(0, 3),
-        'name'        => $faker->name,
+        'name'        => $faker->firstName,
         'description' => $faker->paragraph(2)
     ];
 });

@@ -54,11 +54,22 @@
 					<div class="fields">
 						<div class="eight wide required field {{ $errors->loanErrors->has('user_enrollment') ? 'error' : '' }}">
 							{!! Form::label('user_enrollment', 'Matrícula') !!}
-							{!! Form::text('user_enrollment', null, ['placeholder'=>'Matrícula do Aluno', 'data-mask' => '0000000000']) !!}
+							{!! Form::text('user_enrollment', null) !!}
 						</div>
 						<div class="eight wide required field {{ $errors->loanErrors->has('loan_equipment_code') ? 'error' : '' }}">
 							{!! Form::label('loan_equipment_code', 'Código') !!}
-							{!! Form::text('loan_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
+							<div class="ui icon input">
+								{!! Form::text('loan_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
+								<i class="circular barcode link icon"></i>
+							</div>
+						</div>
+					</div>
+					<div class="fields">
+						<div class="sixteen wide required field {{ $errors->has('deadline') ? 'error' : '' }}">
+							{!! Form::label('deadline', 'Data Limite para Devolução') !!}
+							<div class="ui calendar" id="deadlineCalendar">
+								{!! Form::text('deadline', Carbon\Carbon::today()->format('d/m/Y'), ['placeholder'=>'Data limite']) !!}
+							</div>
 						</div>
 					</div>
 
@@ -73,7 +84,10 @@
 					<h2 class="ui dividing header" data-content="Preencha o campo de devolução com o código do equipamento a ser devolvido digitando-o ou por meio do leitor de código de barra. O sistema irá efetuar a devolução do equipamento para o horário atual" data-position="top left" data-variation="wide">Devolução</h2>
 					<div class="required field {{ $errors->returnErrors->has('return_equipment_code') ? 'error' : '' }}">
 						{!! Form::label('return_equipment_code', 'Código') !!}
-						{!! Form::text('return_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
+						<div class="ui icon input">
+							{!! Form::text('return_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
+							<i class="circular barcode link icon"></i>
+						</div>
 					</div>
 					{!! Form::submit('Devolver', ['class'=>'ui secondary button']) !!}
 				{!! Form::close() !!}
@@ -130,34 +144,49 @@
 		$(document).ready(function() {
 			$('.ui.checkbox').checkbox();
 
-			$('#queryInput').on('keyup', function() {
-				var value = $(this).val();
-				var patt = new RegExp(value, "i");
+			if ($('input[type=radio][name=user_type]:checked').val() == "Aluno") {
+				$('#user_enrollment').attr("placeholder", "Matrícula do Aluno");
+				$('#user_enrollment').mask("0000000000");
+			}
+			else {
+				$('#user_enrollment').attr("placeholder", "Matrícula do Servidor");
+				$('#user_enrollment').mask("000000-0");
+			}
 
-				$('table#loansTable tbody').find('tr').each(function() {
-					if (!($(this).find('td').text().search(patt) >= 0)) {
-						$(this).hide();
+			var today = new Date();
+			$('#deadlineCalendar').calendar({
+				type: 'date',
+				ampm: false,
+				initialDate: null,
+				minDate: today,
+				text: {
+					days: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+					months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'May', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+					monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+					today: 'Hoje',
+					now: 'Agora',
+					am: 'AM',
+					pm: 'PM'
+				},
+				formatter: {
+					date: function (date, settings) {
+						if (!date) return '';
+						var day = ('0' + date.getDate()).slice(-2);
+						var month = ('0' + (date.getMonth() + 1)).slice(-2);
+						var year = date.getFullYear();
+						return day + '/' + month + '/' + year;
 					}
-					if (($(this).find('td').text().search(patt) >= 0)) {
-						$(this).show();
-					}
-				});
-			});
-
-			$('input[type=radio][name=user_type]').change(function() {
-				if (this.value == 'Aluno') {
-					$('#user_enrollment').val("");
-					$('#user_enrollment').attr("placeholder", "Matrícula do Aluno");
-					$('#user_enrollment').mask("0000000000");
-				}
-				else {
-					$('#user_enrollment').val("");
-					$('#user_enrollment').attr("placeholder", "Matrícula do Servidor");
-					$('#user_enrollment').mask("000000-0");
 				}
 			});
+		});
 
-			if ($('input[type=radio][name=user_type]').value != "Aluno") {
+		$('input[type=radio][name=user_type]').change(function() {
+			if (this.value == 'Aluno') {
+				$('#user_enrollment').attr("placeholder", "Matrícula do Aluno");
+				$('#user_enrollment').mask("0000000000");
+			}
+			else {
+				$('#user_enrollment').attr("placeholder", "Matrícula do Servidor");
 				$('#user_enrollment').mask("000000-0");
 			}
 		});

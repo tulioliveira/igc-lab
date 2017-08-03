@@ -1,28 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-	@if (isset($student))
+	@if (isset($user))
 		<div class="ui segment raised" >
 			<div class="ui grid">
 				<div class="twelve wide column">
-					<h1 class="ui header" data-content="Nome do aluno" data-position="top left">
-						{{$student->name}} 
-						<div class="ui label" data-content="Matrícula do aluno" data-position="right center">
-							<i class="student icon"></i> Matrícula: {{$student->enrollment}}
+					<h1 class="ui header" data-content="Nome do usuário" data-position="top left">
+						{{$user->first_name . " " . $user->last_name}} 
+						<div class="ui label violet">
+							@if($user->type == "Aluno") Aluno @else Servidor @endif
+						</div>
+						<div class="ui label" data-content="Matrícula do usuário" data-position="right center">
+							<i class="user icon"></i> Matrícula: {{$user->enrollment}}
 						</div>
 					</h1>
 				</div>
 				<div class="four wide column">
-					{!! Form::open(['method'=>'DELETE', 'action'=>['StudentsController@destroy', $student->id], 'class'=>'ui form']) !!}
+					{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui form']) !!}
 						{{csrf_field()}}
 						<div class="ui buttons right floated">
-							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o aluno do sistema" data-position="left center">
+							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o usuário do sistema" data-position="left center">
 								<div class="visible content">Deletar</div>
 								<div class="hidden content">
 									<i class="icon remove"></i>
 								</div>
 							</button>
-							<a class="ui animated fade button primary" tabindex="0" href="/students/{{$student->id}}/edit" data-content="Editar as informações do aluno" data-variation="flowing" data-position="bottom center">
+							<a class="ui animated fade button primary" tabindex="0" href="/users/{{$user->id}}/edit" data-content="Editar as informações do usuário" data-variation="flowing" data-position="bottom center">
 								<div class="visible content">Editar</div>
 								<div class="hidden content">
 									<i class="icon edit"></i>
@@ -37,28 +40,27 @@
 				<div class="ui large horizontal list">
 					<div class="top aligned item">
 						<div class="header"><i class="id card icon"></i>CPF</div>
-						{{$student->cpf}}
+						{{$user->cpf}}
 					</div>
 					<div class="top aligned item">
 						<div class="header"><i class="mail icon"></i>E-mail</div>
-						<a target="_blank" href="mailto:{{$student->email}}">{{$student->email}}</a>
+						<a target="_blank" href="mailto:{{$user->email}}">{{$user->email}}</a>
 					</div>
-					<div class="top aligned item">
-						<div class="header"><i class="book icon"></i>Curso</div>
-						{{$student->course}}
-					</div>
-					<div class="top aligned item">
-						<div class="header"><i class="home icon"></i>Endereço & Contato</div>
-						<div class="content address">
-							{{$student->street}}, {{$student->number}} @if($student->complement) - {{$student->complement}} @endif <br>
-							{{$student->city}} - {{$student->state}}, {{$student->zipcode}} <br>
-							Celular: {{$student->phone}}
+					@if($user->type == "Aluno")
+						<div class="top aligned item">
+							<div class="header"><i class="book icon"></i>Curso</div>
+							{{$user->course}}
 						</div>
-					</div>
+					@else
+						<div class="top aligned item">
+							<div class="header"><i class="book icon"></i>Departamento/Setor</div>
+							{{$user->department}}
+						</div>
+					@endif
 				</div>
 			</div>
 			<h3 class="ui header"> Empréstimos</h3>
-			@if (count($student->loans) == 0)
+			@if (count($user->loans) == 0)
 				<div class="ui icon warning message">
 					<i class="huge comments outline icon"></i>
 					<div class="content">
@@ -103,10 +105,10 @@
 			Erro
 		</h1>
 		<h2 class="ui center aligned header">
-			Esse aluno não existe!
+			Esse usuário não existe!
 		</h2>
 		<div class="ui container center aligned">
-			<a class="ui primary button" href="/students"><i class="icon left arrow"></i>Voltar</a>
+			<a class="ui primary button" href="/users"><i class="icon left arrow"></i>Voltar</a>
 		</div>
 	@endif
 @stop

@@ -2,10 +2,15 @@
 
 @section('content')
 <div class="ui segment container raised">
-	<h2 class="ui center aligned icon header">
-		<i class="world icon"></i>
-		Laboratório de Topografia do Departamento de Cartografia do IGC
-	</h2>
+	<img class="ui centered medium rounded image" src="{{URL::asset('img/logo_labtop.png')}}">
+	<div class="ui center aligned huge header">
+		<div class="content">
+			Laboratório de Topografia
+			<div class="sub header">
+				Departamento de Cartografia do IGC
+			</div>
+		</div>
+	</div>
 	
 	<div class="ui dividing header" data-content="Exibe os últimos 5 empréstimos realizados" data-position="top left" data-variation="wide">Últimos Empréstimos</div>
 	@if (count($loans) == 0)
