@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+	@include('delete-modal')
+
 	<h1 class="ui center aligned icon header">
 		<i class="users icon"></i>
 		Usuários
@@ -16,10 +18,13 @@
 				</a>
 			</div>
 			<div class="thirteen wide field">
-				<div class="ui fluid icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide" data-position="top right">
-					<input type="text" placeholder="Buscar usuários" name="query" id="queryInput">
-					<i class="search icon"></i>
-				</div>
+				{!! Form::open(['method'=>'GET', 'action'=>'UsersController@index', 'class'=>'ui form']) !!}
+					<div class="ui fluid right action left icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide" data-position="top right">
+						<i class="search icon"></i>
+						{!! Form::text('query', null, ['placeholder'=>'Buscar usuários']) !!}
+						{!! Form::button('Buscar', ['type' => 'submit', 'class'=>'ui button teal']) !!}
+					</div>
+				{!! Form::close() !!}
 			</div>
 		</div>
 	</div>
@@ -71,7 +76,7 @@
 										<i class="icon edit"></i>
 									</div>
 								</a>
-								{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui form']) !!}
+								{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui delete form']) !!}
 									{{csrf_field()}}
 									<button class="ui animated fade button negative" tabindex="0" type="submit" @if($loop->first) data-content="Remover o usuário do sistema" data-position="bottom right" @endif>
 										<div class="visible content">Deletar</div>
@@ -94,18 +99,19 @@
 @section('scripts')
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#queryInput').on('keyup', function() {
-				var value = $(this).val();
-				var patt = new RegExp(value, "i");
+			$('table#usersTable').on('click', '.delete.form', function(e){
+				e.preventDefault();
+				var $form=$(this);
+				$('.ui.delete.modal').modal({
+					closable  : false,
+					onDeny    : function(){
 
-				$('table#usersTable tbody').find('tr').each(function() {
-					if (!($(this).find('td').text().search(patt) >= 0)) {
-						$(this).hide();
+					},
+					onApprove : function() {
+						$form.submit();
 					}
-					if (($(this).find('td').text().search(patt) >= 0)) {
-						$(this).show();
-					}
-				});
+				})
+				.modal('show');
 			});
 		});
 	</script>

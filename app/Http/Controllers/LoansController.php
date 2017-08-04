@@ -84,7 +84,8 @@ class LoansController extends Controller
 		$loan->deadline = Carbon::createFromFormat('d/m/Y', $request->deadline)->setTime(23,59,59);
 		
 		$loan->save();
-		
+
+		flash('Empréstimo cadastrado com sucesso! Devolução para ' . $loan->deadline->format("d/m/Y") . '.')->success();
 		return redirect('/loans');
 	}
 
@@ -114,6 +115,10 @@ class LoansController extends Controller
 		if($loan = Loan::where('returned_on', '=', null)->where('equipment_id', '=', $equipment->id)->first()) {
 			$loan->returned_on = Carbon::now();
 			$loan->save();
+			flash('Equipamento devolvido com sucesso!')->success();
+		}
+		else {
+			flash('O equipamento não possui nenhum empréstimo em aberto!')->error();
 		}
 
 		return redirect('/loans');

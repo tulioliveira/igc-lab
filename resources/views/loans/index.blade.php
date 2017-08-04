@@ -190,9 +190,5 @@
 				$('#user_enrollment').mask("000000-0");
 			}
 		});
-
-		$('.message .close').on('click', function() {
-			$(this).closest('.message').transition('fade');
-		});
 	</script>
 @stop

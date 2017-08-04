@@ -4,10 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Laravel\Scout\Searchable;
 use App\Loan;
 
 class Equipment extends Model
 {
+	use Searchable;
+
 	protected $guarded = [];
 
 	public function loans(){
@@ -25,5 +28,17 @@ class Equipment extends Model
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Get the indexable data array for the model.
+	 *
+	 * @return array
+	 */
+	public function toSearchableArray()
+	{
+		$array = $this->toArray();
+
+		return $array;
 	}
 }

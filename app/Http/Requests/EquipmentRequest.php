@@ -37,7 +37,7 @@ class EquipmentRequest extends FormRequest
             {
                 return [
                     'code'        => 'required|alpha_num|unique:equipment',
-                    'name'        => 'required|alpha_dash|max:60',
+                    'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:60',
                     'description' => 'required',
                 ];
             }
@@ -46,7 +46,7 @@ class EquipmentRequest extends FormRequest
             {
                 return [
                     'code'        => 'required|alpha_num|unique:equipment,code,' . $equip->id,
-                    'name'        => 'required|alpha_dash|max:60',
+                    'name'        => 'required|regex:/^[\pL\s\-]+$/u|max:60',
                     'description' => 'required',
                 ];
             }

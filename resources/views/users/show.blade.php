@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+	@include('delete-modal')
+
 	@if (isset($user))
 		<div class="ui segment raised" >
 			<div class="ui grid">
@@ -15,8 +17,8 @@
 						</div>
 					</h1>
 				</div>
-				<div class="four wide column">
-					{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui form']) !!}
+				<div class="four wide column" id="optionsColumn">
+					{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui delete form']) !!}
 						{{csrf_field()}}
 						<div class="ui buttons right floated">
 							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o usuário do sistema" data-position="left center">
@@ -114,5 +116,22 @@
 @stop
 
 @section('scripts')
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('div#optionsColumn').on('click', '.delete.form', function(e){
+				e.preventDefault();
+				var $form=$(this);
+				$('.ui.delete.modal').modal({
+					closable  : false,
+					onDeny    : function(){
 
+					},
+					onApprove : function() {
+						$form.submit();
+					}
+				})
+				.modal('show');
+			});
+		});
+	</script>
 @stop

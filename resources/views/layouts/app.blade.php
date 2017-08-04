@@ -39,6 +39,7 @@
 		</div>
 	</div>
 	<div class="ui container margin bottom">
+		@include('flash::message')
 		@yield('content')
 	</div>
 	
@@ -50,5 +51,12 @@
 	<script type="text/javascript" src="{{URL::asset('js/jquery.mask.min.js')}}"></script>
 	@yield('scripts')
 	<script type="text/javascript" src="{{URL::asset('js/help.js')}}"></script>
+	<script type="text/javascript">
+		$('div.flash.message').delay(3000).fadeOut(350);
+
+		$('.message .close').on('click', function() {
+			$(this).closest('.message').transition('fade');
+		});
+	</script>
 </body>
 </html>

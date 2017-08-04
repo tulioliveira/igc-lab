@@ -11,11 +11,16 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(20);
+        $query = $request->input('query');
+        if ($query != '')
+            $users = User::search($query)->paginate(20);
+        else
+            $users = User::latest()->paginate(20);
         return view('users.index', compact('users'));
     }
 
@@ -38,7 +43,8 @@ class UsersController extends Controller
     public function store(UserRequest $request)
     {
         User::create($request->all());
-    
+        
+        flash('Usuário criado com sucesso!')->success();
         return redirect('/users');
     }
 
@@ -82,6 +88,7 @@ class UsersController extends Controller
 
         $user->update($request->all());
 
+        flash('Usuário atualizado com sucesso!')->success();
         return redirect('/users/' . $id);
     }
 
@@ -95,6 +102,7 @@ class UsersController extends Controller
     {
         User::whereId($id)->delete();
 
+        flash('Usuário deletado com sucesso!')->success();
         return redirect('/users');
     }
 }

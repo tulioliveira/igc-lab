@@ -11,11 +11,17 @@ class EquipmentController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
+	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
-		$equipment = Equipment::latest()->paginate(20);
+		$query = $request->input('query');
+		if ($query != '')
+			$equipment = Equipment::search($query)->paginate(20);
+		else
+			$equipment = Equipment::latest()->paginate(20);
+
 		return view('equipment.index', compact('equipment'));
 	}
 
@@ -38,7 +44,8 @@ class EquipmentController extends Controller
 	public function store(EquipmentRequest $request)
 	{
 		Equipment::create($request->all());
-	
+		
+		flash('Equipamento criado com sucesso!')->success();
 		return redirect('/equipment');
 	}
 
@@ -82,6 +89,7 @@ class EquipmentController extends Controller
 
 		$equipment->update($request->all());
 
+		flash('Equipamento atualizado com sucesso!')->success();
 		return redirect('/equipment/'. $id);
 	}
 
@@ -95,6 +103,7 @@ class EquipmentController extends Controller
 	{
 		Equipment::whereId($id)->delete();
 
+		flash('Equipamento deletado com sucesso!')->success();
 		return redirect('/equipment');
 	}
 }

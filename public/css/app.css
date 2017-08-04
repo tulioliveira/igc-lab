@@ -104,5 +104,12 @@
 	font-size: 0.95em;
 }
 
+.ui.flash.message {
+	position:fixed;
+	left: 50%;
+    transform: translateX(-50%);
+	z-index: 10;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,400,600);
 @charset "UTF-8";
