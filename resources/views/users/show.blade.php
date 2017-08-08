@@ -17,11 +17,11 @@
 						</div>
 					</h1>
 				</div>
-				<div class="four wide column" id="optionsColumn">
+				<div class="four wide column">
 					{!! Form::open(['method'=>'DELETE', 'action'=>['UsersController@destroy', $user->id], 'class'=>'ui delete form']) !!}
 						{{csrf_field()}}
 						<div class="ui buttons right floated">
-							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o usuário do sistema" data-position="left center">
+							<button class="ui animated fade button negative" tabindex="0" type="submit" data-content="Remover o usuário do sistema" data-position="left center" id="deleteButton">
 								<div class="visible content">Deletar</div>
 								<div class="hidden content">
 									<i class="icon remove"></i>
@@ -118,9 +118,9 @@
 @section('scripts')
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('div#optionsColumn').on('click', '.delete.form', function(e){
+			$('button#deleteButton').on('click', function(e){
 				e.preventDefault();
-				var $form=$(this);
+				var $form=$(this).parents(".form.delete");
 				$('.ui.delete.modal').modal({
 					closable  : false,
 					onDeny    : function(){

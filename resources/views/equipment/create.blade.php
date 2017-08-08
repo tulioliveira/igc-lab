@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+	@include('barcode-modal')
 	@if($errors->any())
 		<div class="ui error message">
 			<i class="close icon"></i>
@@ -23,7 +24,7 @@
 					{!! Form::label('code', 'Código') !!}
 					<div class="ui icon input">
 						{!! Form::text('code', null, ['placeholder'=>'Código do Equipamento']) !!}
-						<i class="circular barcode link icon"></i>
+						<i class="bordered barcode inverted grey link icon" id="barcodeReader"></i>
 					</div>
 				</div>
 				<div class="eight wide required field {{ $errors->has('name') ? 'error' : '' }}">
@@ -45,4 +46,33 @@
 @stop
 
 @section('scripts')
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('i#barcodeReader').on('click', function(e){
+				$('.ui.barcode.modal').modal('show');
+			});
+
+			var pressed = false; 
+			var chars = []; 
+			$(window).keypress(function(e) {
+				if($('.ui.barcode.modal').is(":visible")){
+					if (e.which >= 48 && e.which <= 57) {
+						chars.push(String.fromCharCode(e.which));
+					}
+					if (pressed == false) {
+						setTimeout(function(){
+							if (chars.length >= 10) {
+								var barcode = chars.join("");
+								$("input#code").val(barcode);
+								$('.ui.barcode.modal').modal('hide');
+							}
+							chars = [];
+							pressed = false;
+						},500);
+					}
+					pressed = true;
+				}
+			});
+		});
+	</script>
 @stop

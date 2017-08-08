@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+	@include('barcode-modal')
 	<h1 class="ui center aligned icon header">
 		<i class="exchange icon"></i>
 		Empréstimos
@@ -60,8 +61,9 @@
 							{!! Form::label('loan_equipment_code', 'Código') !!}
 							<div class="ui icon input">
 								{!! Form::text('loan_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
-								<i class="circular barcode link icon"></i>
+								<i class="bordered barcode inverted grey link icon" id="barcodeReader"></i>
 							</div>
+
 						</div>
 					</div>
 					<div class="fields">
@@ -86,7 +88,7 @@
 						{!! Form::label('return_equipment_code', 'Código') !!}
 						<div class="ui icon input">
 							{!! Form::text('return_equipment_code', null, ['placeholder'=>'Código do Equipamento']) !!}
-							<i class="circular barcode link icon"></i>
+							<i class="bordered barcode inverted grey link icon" id="barcodeReader"></i>
 						</div>
 					</div>
 					{!! Form::submit('Devolver', ['class'=>'ui secondary button']) !!}
@@ -176,6 +178,33 @@
 						var year = date.getFullYear();
 						return day + '/' + month + '/' + year;
 					}
+				}
+			});
+
+			$('i#barcodeReader').on('click', function(e){
+				$('.ui.barcode.modal').modal('show');
+			});
+
+			var pressed = false; 
+			var chars = []; 
+			$(window).keypress(function(e) {
+				if($('.ui.barcode.modal').is(":visible")){
+					if (e.which >= 48 && e.which <= 57) {
+						chars.push(String.fromCharCode(e.which));
+					}
+					if (pressed == false) {
+						setTimeout(function(){
+							if (chars.length >= 10) {
+								var barcode = chars.join("");
+								$("input#return_equipment_code").val(barcode);
+								$("input#loan_equipment_code").val(barcode);
+								$('.ui.barcode.modal').modal('hide');
+							}
+							chars = [];
+							pressed = false;
+						},500);
+					}
+					pressed = true;
 				}
 			});
 		});
