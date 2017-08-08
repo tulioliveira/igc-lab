@@ -111,5 +111,9 @@
 	z-index: 10;
 }
 
+.ui.icon.input, .ui.action.input {
+	height: 36px;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,400,600);
 @charset "UTF-8";

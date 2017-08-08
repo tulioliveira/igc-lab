@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+	@include('barcode-modal')
 	@include('delete-modal')
 	
 	<h1 class="ui center aligned icon header">
@@ -20,7 +21,7 @@
 			<div class="thirteen wide field">
 				{!! Form::open(['method'=>'GET', 'action'=>'EquipmentController@index', 'class'=>'ui form']) !!}
 					<div class="ui fluid right action left icon input" data-content="Busca por qualquer linha da tabela que contenha os termos de busca" data-variation="very wide" data-position="top right">
-						<i class="search icon"></i>
+						<i class="circular barcode link icon" id="barcodeReader"></i>
 						{!! Form::text('query', null, ['placeholder'=>'Buscar equipamentos']) !!}
 						{!! Form::button('Buscar', ['type' => 'submit', 'class'=>'ui button teal']) !!}
 					</div>
@@ -111,5 +112,32 @@
 				.modal('show');
 			});
 		});
+
+		$('i#barcodeReader').on('click', function(e){
+			$('.ui.barcode.modal').modal('show');
+		});
+
+		var pressed = false; 
+		var chars = []; 
+		$(window).keypress(function(e) {
+			if($('.ui.barcode.modal').is(":visible")){
+				if (e.which >= 48 && e.which <= 57) {
+					chars.push(String.fromCharCode(e.which));
+				}
+				if (pressed == false) {
+					setTimeout(function(){
+						if (chars.length >= 10) {
+							var barcode = chars.join("");
+							$("input[name='query']").val(barcode);
+							$('.ui.barcode.modal').modal('hide');
+						}
+						chars = [];
+						pressed = false;
+					},500);
+				}
+				pressed = true;
+			}
+		});
+
 	</script>
 @stop
