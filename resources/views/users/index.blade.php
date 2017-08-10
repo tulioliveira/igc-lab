@@ -38,12 +38,12 @@
 			</div>
 		</div>
 	@else
-		<div class="ui two column center aligned grid" @if($users->lastPage() > 1) data-content="A tabela de usuários é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+		<div class="ui two column center aligned grid" @if($users->lastPage() > 1) data-content="A tabela de usuários é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif  id="usersTable">
 			<div class="column">
 				{{$users->links()}}
 			</div>
 		</div>
-		<table class="ui teal fixed celled table" id="usersTable">
+		<table class="ui teal fixed celled table">
 			<thead>
 				<tr>
 					<th class="center aligned two wide">Matrícula</th>
@@ -113,6 +113,11 @@
 				})
 				.modal('show');
 			});
+
+			var field = 'page';
+			var url = window.location.href;
+			if((url.indexOf('?page=') != -1) || (url.indexOf('&page=') != -1))
+				$('html, body').animate({scrollTop: $('#usersTable').offset().top}, 500);
 		});
 	</script>
 @stop

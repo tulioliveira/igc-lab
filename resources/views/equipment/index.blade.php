@@ -39,18 +39,18 @@
 			</div>
 		</div>
 	@else
-		<div class="ui two column center aligned grid" @if($equipment->lastPage() > 1) data-content="A tabela de equipamentos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+		<div class="ui two column center aligned grid" @if($equipment->lastPage() > 1) data-content="A tabela de equipamentos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif id="equipmentTable">
 			<div class="column">
 				{{$equipment->links()}}
-
 			</div>
 		</div>
-		<table class="ui teal fixed celled table" id="equipmentTable">
+		<table class="ui teal fixed celled table">
 			<thead>
 				<tr>
 					<th class="two wide center aligned">Código</th>
 					<th class="two wide center aligned">Nome</th>
-					<th class="center aligned eight wide">Descrição</th>
+					<th class="center aligned six wide">Descrição</th>
+					<th class="center aligned two wide">Estado</th>
 					<th class="center aligned four wide">Opções</th>
 				</tr>
 			</thead>
@@ -60,6 +60,17 @@
 						<td class="center aligned">{{$equip->code}}</td>
 						<td class="center aligned">{{$equip->name}}</td>
 						<td>{{$equip->description}}</td>
+						<td class="center aligned">
+							@if($equip->isLoaned())
+								<div class="ui label red">
+									Emprestado
+								</div>
+							@else
+								<div class="ui label green">
+									Disponível
+								</div>
+							@endif
+						</td>
 						<td>
 							<div class="ui buttons small fluid">
 								<a class="ui animated fade button " tabindex="0" href="/equipment/{{$equip->id}}" @if($loop->first) data-content="Visualizar mais detalhes" data-position="left center" @endif>
@@ -111,33 +122,37 @@
 				})
 				.modal('show');
 			});
-		});
 
-		$('i#barcodeReader').on('click', function(e){
-			$('.ui.barcode.modal').modal('show');
-		});
+			$('i#barcodeReader').on('click', function(e){
+				$('.ui.barcode.modal').modal('show');
+			});
 
-		var pressed = false; 
-		var chars = []; 
-		$(window).keypress(function(e) {
-			if($('.ui.barcode.modal').is(":visible")){
-				if (e.which >= 48 && e.which <= 57) {
-					chars.push(String.fromCharCode(e.which));
+			var pressed = false; 
+			var chars = []; 
+			$(window).keypress(function(e) {
+				if($('.ui.barcode.modal').is(":visible")){
+					if (e.which >= 48 && e.which <= 57) {
+						chars.push(String.fromCharCode(e.which));
+					}
+					if (pressed == false) {
+						setTimeout(function(){
+							if (chars.length >= 10) {
+								var barcode = chars.join("");
+								$("input[name='query']").val(barcode);
+								$('.ui.barcode.modal').modal('hide');
+							}
+							chars = [];
+							pressed = false;
+						},500);
+					}
+					pressed = true;
 				}
-				if (pressed == false) {
-					setTimeout(function(){
-						if (chars.length >= 10) {
-							var barcode = chars.join("");
-							$("input[name='query']").val(barcode);
-							$('.ui.barcode.modal').modal('hide');
-						}
-						chars = [];
-						pressed = false;
-					},500);
-				}
-				pressed = true;
-			}
-		});
+			});
 
+			var field = 'page';
+			var url = window.location.href;
+			if((url.indexOf('?page=') != -1) || (url.indexOf('&page=') != -1))
+				$('html, body').animate({scrollTop: $('#usersTable').offset().top}, 500);
+		});
 	</script>
 @stop

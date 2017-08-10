@@ -70,7 +70,7 @@
 						<div class="sixteen wide required field {{ $errors->has('deadline') ? 'error' : '' }}">
 							{!! Form::label('deadline', 'Data Limite para Devolução') !!}
 							<div class="ui calendar" id="deadlineCalendar">
-								{!! Form::text('deadline', Carbon\Carbon::today()->format('d/m/Y'), ['placeholder'=>'Data limite']) !!}
+								{!! Form::text('deadline', Carbon\Carbon::today()->format('D/M/Y'), ['placeholder'=>'Data limite']) !!}
 							</div>
 						</div>
 					</div>
@@ -107,12 +107,12 @@
 			</div>
 		</div>
 	@else
-		<div class="ui two column center aligned grid" @if($loans->lastPage() > 1) data-content="A tabela de empréstimos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif>
+		<div class="ui two column center aligned grid" @if($loans->lastPage() > 1) data-content="A tabela de empréstimos é paginada de 20 em 20 items. Use o paginador para alterar entre as páginas" data-position="top center" data-variation="flowing" @endif  id="loansTable" >
 			<div class="column">
 				{{$loans->links()}}
 			</div>
 		</div>
-		<table class="ui teal fixed celled table" id="loansTable" data-content="Empréstimos em atraso serão exibidos em vermelho" data-position="top right" data-variation="wide">
+		<table class="ui teal fixed celled table" data-content="Empréstimos em atraso serão exibidos em vermelho" data-position="top right" data-variation="wide">
 			<thead>
 				<tr>
 					<th class="center aligned two wide">Matrícula do Usuário</th>
@@ -207,6 +207,11 @@
 					pressed = true;
 				}
 			});
+
+			var field = 'page';
+			var url = window.location.href;
+			if((url.indexOf('?page=') != -1) || (url.indexOf('&page=') != -1))
+				$('html, body').animate({scrollTop: $('#usersTable').offset().top}, 500);
 		});
 
 		$('input[type=radio][name=user_type]').change(function() {

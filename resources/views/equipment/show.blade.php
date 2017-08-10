@@ -45,7 +45,6 @@
 			</div>
 			<div class="ui divider"></div>
 			<span class="ui" data-content="Descrição do equipamento" data-position="bottom left">{{$equipment->description}}</span><br/>
-			<span><strong>Duração de Empréstimo:</strong> {{$equipment->time}} dias</span>
 			<h3 class="ui header"> Empréstimos</h3>
 			@if (count($loans) == 0)
 				<div class="ui icon warning message">
